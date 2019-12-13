@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.mapper.LoggerMapper">
+	<insert id="addLogger">
+		insert into logger (ip,remarks,user_id,createTime) values(#{ip},#{remarks},${user_id},getDate())
+	</insert>
+	<!-- 	日志查询 -->
+	<select id="findLoggerInfo" resultType="LoggerInfo">
+		declare @aaa int
+		select @aaa = count(*) from logger left join UserInfo on logger.user_id = UserInfo.user_id 
+		left join CompanyInfo on UserInfo.company_id = CompanyInfo.id
+		where UserInfo.company_id =${company_id} and logger.createTime BETWEEN #{bt} and #{et} and UserInfo.effective = 1
+		<if test="user_id!=null and user_id!=''">
+			and	logger.user_id = #{user_id} 
+		</if>
+		<if test="remarks!=null and remarks!=''">
+			and	logger.remarks like '%${remarks}%' 
+		</if>
+	
+		select top ${rows} id,ip,remarks,user_id,user_name,createTime,size,company_name  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY logger.createTime desc,user_name ) AS rownumber,@aaa AS size ,
+		logger.id,logger.ip,logger.remarks,logger.user_id,UserInfo.user_name,CONVERT(VARCHAR(19),logger.createTime,120) as createTime,CompanyInfo.company_name  from 
+		logger left join UserInfo on logger.user_id = UserInfo.user_id 
+		left join CompanyInfo on UserInfo.company_id = CompanyInfo.id
+		where UserInfo.company_id =${company_id} and logger.createTime BETWEEN #{bt} and #{et} and UserInfo.effective = 1
+		<if test="user_id!=null and user_id!=''">
+			and	logger.user_id = #{user_id} 
+		</if>
+		<if test="remarks!=null and remarks!=''">
+			and	logger.remarks like '%${remarks}%' 
+		</if>)
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+	<!-- 	日志查询 当是admin登入的时候-->
+	<select id="findLoggerInfoByAdmin" resultType="LoggerInfo">
+		declare @aaa int
+		select @aaa = count(*) from logger left join UserInfo on logger.user_id = UserInfo.user_id 
+		left join CompanyInfo on UserInfo.company_id = CompanyInfo.id
+		where  logger.createTime BETWEEN #{bt} and #{et} and UserInfo.effective = 1
+		<if test="user_id!=null and user_id!=''">
+			and	logger.user_id = #{user_id} 
+		</if>
+		<if test="remarks!=null and remarks!=''">
+			and	logger.remarks like '%${remarks}%' 
+		</if>
+	
+		select top ${rows} id,ip,remarks,user_id,user_name,createTime,size,company_name  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY logger.createTime desc,user_name ) AS rownumber,@aaa AS size ,
+		logger.id,logger.ip,logger.remarks,logger.user_id,UserInfo.user_name,CONVERT(VARCHAR(19),logger.createTime,120) as createTime,CompanyInfo.company_name  from 
+		logger left join UserInfo on logger.user_id = UserInfo.user_id 
+		left join CompanyInfo on UserInfo.company_id = CompanyInfo.id
+		where  logger.createTime BETWEEN #{bt} and #{et} and UserInfo.effective = 1
+		<if test="user_id!=null and user_id!=''">
+			and	logger.user_id = #{user_id} 
+		</if>
+		<if test="remarks!=null and remarks!=''">
+			and	logger.remarks like '%${remarks}%' 
+		</if>)
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+	
+</mapper>

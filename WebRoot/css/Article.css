@@ -1,0 +1,122 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+/*a img{ 
+	border:none;
+}*/
+a{
+	text-decoration:none;
+}
+
+
+div.__01 {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:1024px;
+	height:90px;
+}
+
+div.id1-A1 {
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:387px;
+	height:62px;
+	z-index: 0;
+}
+
+div.id2-B2 {
+	position:absolute;
+	left:387px;
+	top:0px;
+	width:637px;
+	height:62px;
+	z-index: 0;
+}
+
+div.id3-C3 {
+	position:absolute;
+	left:0px;
+	top:62px;
+	width:387px;
+	height:28px;
+	z-index: 0;
+}
+
+div.id4-D4 {
+	position:absolute;
+	left:387px;
+	top:62px;
+	width:637px;
+	height:28px;
+	z-index: 0;
+}
+
+div.id5-right {
+	position: absolute;
+	left: 1024px;
+	top: 0px;
+	width: 896px;
+	height: 90px;
+	z-index: 0;
+}
+
+#Topmenu .Toolbar1 .CentreBox {
+	position: absolute;
+	left: 0px;
+	width: 1210px;
+	height: 50px;
+	z-index: 1;
+}
+
+
+#Topmenu .Toolbar1 .CentreBox .ttopMenu {
+	position: absolute;
+	left: 220px;
+	top: 59px;
+	height: 40px;
+	width: 800px;
+	float: left;
+}
+#Topmenu .Toolbar1 .CentreBox .ttopMenu .List1 {		/*ul高度 28*/
+	float: left;
+	text-align: center;
+	list-style-type: none;
+	height: 30px;
+	top: 0px;
+	position: relative;
+	left: 20px;
+}
+#Topmenu .Toolbar1 .CentreBox .ttopMenu .List1 li { 	/*li高度 28*/
+	width: 120px;
+	float: left;
+	height: 30px;
+	line-height: 32px;
+}
+#Topmenu .Toolbar1 .CentreBox .ttopMenu .List1 .Select {
+	background-image: url(../images/background_3.png);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#Topmenu .Toolbar1 .CentreBox .ttopMenu .List1 .Selected {
+	background-image: url(../images/background_3-1.png);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-position: center;
+	
+}
+
+#Topmenu .Toolbar1 .CentreBox .ttopMenu .List1 a {
+	color: #FFFFFF;
+	font-size: 14px;
+}
+.tableCss{
+width: 80%;border-collapse: collapse;border: 5px solid #97CBFF;  background: #D2E9FF;cellpadding:5px;
+}
+.roundcont p {
+        margin: 0 10px;
+}

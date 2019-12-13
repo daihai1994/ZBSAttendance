@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace命名空间，作用就是对sql进行分类化管理，理解sql隔离 注意：使用mapper代理方法开发，namespace有特殊重要的作用 -->
+<mapper namespace="net.zhongbenshuo.attendance.mapper.LoginMapper">
+
+	<resultMap id="UserInfoStatusMap" type="UserInfoStatus">
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="open_id" property="open_id" />
+		<collection property="attendanceRecords" ofType="AttendanceRecord">
+			<id column="id" property="id" />
+		</collection>
+	</resultMap>
+	
+	<select id="checkUser" resultType="User">
+		select *
+		from UserInfo where user_id = #{userId} and user_pwd = #{userPwd} 
+	</select>
+
+	<insert id="addPCLoginLog" parameterType="LoginLogInfo">
+		insert into
+		LoginLogInfo
+		(user_Id,ip,versionCode,device_Type,login_Time,apkTypeId)
+		values(#{user_Id},#{ip},#{versionCode},#{device_Type},getDate(),#{apkTypeId})
+	</insert>
+	
+	<select id="compang_main" resultType="Combox">
+		select id,company_name as text, deletePwd from companyInfo where effective = 1 
+		<if test="company_id!=0">
+			and	id = #{company_id} 
+		</if>
+	</select>
+	
+	<select id="findDeletePwd" resultType="String">
+		select deletePwd from companyInfo where id = ${company_id}
+	</select>
+	
+	<select id="webRsaKey" resultType ="WebRsaKey">
+		select * from webRsaKey
+	</select>
+	
+	<insert id="addWorkingTime" parameterType="java.util.List">
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into WorkingTime (date,week,status,year,month,company_id) values (#{item.date},#{item.week},${item.status},${item.year},${item.month},${item.company_id})
+		</foreach>
+	</insert>
+	<insert id="addWorkingTimeUser" parameterType="java.util.List">
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into WorkingTimeUser (date,company_id,user_id) values (#{item.date},${item.company_id},${item.user_id})
+		</foreach>
+	</insert>
+	
+	<select id="findCompany" resultType="Company">
+		select * from CompanyInfo where effective = 1
+	</select>
+	
+	<select id="findUser" resultType="User">
+		select user_id,company_id from userInfo where effective = 1 and company_id !=0 and company_id is not null 
+	</select>
+	
+	<select id="findWorkingTimeUser" resultType="WorkingTimeUser">
+	select isnull(bb.working,0) as working,isnull(bb.overtimetime,0) as overtimetime,isnull(bb.vacationTime,0) as vacationTime,isnull(bb.user_id,0) as user_id,isnull(bb.company_id,0)
+ as company_id
+from (select user_id,company_id from userinfo where effective = 1 and company_id !=0 and company_id is not null) cc left join 
+( select sum(cc.working) as working,sum(cc.overtimetime) as overtimeTime,sum(cc.vacationtime) as vacationTime ,cc.user_id,cc.company_id 
+from (select * from WorkingTimeUser where date like '%${yearMonth}%') cc GROUP BY cc.user_id,cc.company_id)
+ bb on cc.user_id = bb.user_id and cc.company_id  = bb.company_id and bb.working is not null 
+	</select>
+	
+	
+	<insert id="addUserBaseMonth" parameterType="java.util.List">
+		<foreach collection="list" item="item"  index="index" separator=";">
+		insert into UserBaseMonth (over_time,leave_time,working,year,month,company_id,user_id,realityOvertimeTime,mealAllowanceDay,workingDay,laterSize,leaveEarlySize,
+	lackSignInSize,lackSignBackSize) values 
+			(${item.overtimeTimeAll},0,${item.whetherWorking},${year},${month},${item.company_id},${item.user_id},${item.overtimeTimeAll},${item.WhetherMealAllowance},
+			${item.whetherWorking},${item.whetherLater},${item.whetherLeaveEarly},${item.lackSignIn},${item.lackSignBack})
+		</foreach>
+	</insert>
+	
+	<update id="updateUserBase">
+		update userBase set leave_time = 0;
+	</update>
+	
+	<insert id="addUserBase">
+		insert into userbase (over_time,leave_time,user_id,company_id) values (0,0,${user_id},${company_id})
+	</insert>
+	
+	<select id="findFaceList" resultType="Face">
+		select * from face where effective = 1
+	</select>
+	
+	<update id="updateFaceEffective">
+		update face set effective = 0 where id = ${id}
+	</update>
+	
+	<select id="findWorkingTime" resultType="WorkingTime">
+		select * from WorkingTime where date = #{sdate} and company_id = 1
+	</select>
+	
+	<select id="findUserOpenId" resultType="UserInfoStatus" resultMap="UserInfoStatusMap">
+		select userInfo.user_id,userInfo.user_name,cc.id,WeChatUnionid.unionid,WeChatUnionid.openid as open_id from userInfo left join 
+		(select * from AttendanceRecord where AttendanceRecord.attendance_type = 1 and AttendanceRecord.attendance_time BETWEEN #{time} and getDate())
+		 cc on userInfo.user_id = cc.user_id left join WeChatUnionid on userInfo.unionid = WeChatUnionid.unionid
+		 where userInfo.company_id = 1 and userInfo.effective = 1 and WeChatUnionid.openid !='' and WeChatUnionid.openid is not null  
+	</select>
+</mapper>

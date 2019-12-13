@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.company.mapper.CompanyMapper">
+<!-- 	  查询公司信息 -->
+	<select id="findCompanyInfo" resultType="Company">
+		declare @aaa int
+		select @aaa = count(*) from companyInfo where effective = 1
+		<if test="company_id!=0">
+		and	id = ${company_id} 
+		</if>
+		<if test="company_name!=null and company_name!=''">
+		and	company_name = #{company_name} 
+		</if>
+		
+			select top ${rows} id,size,company_name,effective,deletePwd,CONVERT(VARCHAR(19),createTime,120) as createTime,
+			duty_paragraph,address,bank_name,bank_account,official_website,fax,mail,bankCode,card_type_name,card_type,landline_number,enable_application from (
+		SELECT ROW_NUMBER() OVER (ORDER BY company_name) AS rownumber,@aaa AS size ,* from companyInfo)
+		cc WHERE   cc.rownumber > ${bNum} and effective = 1
+		<if test="company_id!=0">
+		and	cc.id = ${company_id} 
+		</if>
+		<if test="company_name!=null and company_name!=''">
+		and	cc.company_name = #{company_name} 
+		</if>
+	</select>
+	<!-- 	 修改公司信息 -->
+	<update id="updateCompanyName">
+		update companyInfo set company_name = #{company_name},duty_paragraph = #{duty_paragraph},address = #{address},
+		bank_name =#{bankName},bank_account = #{bank_account},official_website = #{official_website},
+		fax = #{fax},mail = #{mail},bankCode = #{bankCode},card_type_name = #{cardTypeName},card_type = #{cardType}, 
+		landline_number = #{landline_number},enable_application = ${enable_application} where id = ${company_id}
+	</update>
+	<!-- 	 新增公司信息 -->
+	<insert id="addCompanyName">
+		insert into companyInfo (company_name,createTime,effective,deletePwd,duty_paragraph,address,bank_name,
+		bank_account,official_website,fax,mail,bankCode,card_type_name,card_type,landline_number,enable_application) 
+		values (#{company_name},getDate(),1,666666,#{duty_paragraph},#{address},#{bankName},#{bank_account},#{official_website},
+		#{fax},#{mail},#{bankCode},#{cardTypeName},#{cardType},#{landline_number},${enable_application})
+	</insert>
+	<!-- 	 物理删除公司信息 -->
+	<update id="deleteCompanyInfo">
+	update companyInfo set effective = 0 where id = ${company_id}
+	</update>
+	<!-- 	修改公司的删除密码-->
+	<update id="submitCompanydeletePwd_edit">
+		update companyInfo set deletePwd = #{deletePwd} where id = ${company_id}
+	</update>
+	<!-- 	查询部门的信息-->
+	<select id="findDepartMent" resultType="Department">
+		select * from Department where company_id = ${company_id} and effective = 1 order by priority ,department
+	</select>
+	<!-- 	修改部门的信息-->
+	<update id="updateDepartment" >
+		update Department set department = #{department_name},priority  = ${department_priority} where department_id = ${department_id}
+	</update>
+	<!-- 	新增部门的信息-->
+	<insert id="addDepartment">
+		insert into Department (department,priority,effective,company_id) values (#{department_name},${department_priority},1,${company_id})
+	</insert>
+	<!-- 	物理删除部门的信息-->
+	<update id="deleteDepartMent">
+		update Department set effective = 0 where department_id = ${department_id}
+	</update>
+	<!-- 	部门批量修改排序-->
+	<update id="confirmPriority" parameterType="Department">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update Department
+	        <set>
+	            priority=${item.priority}
+	        </set>
+	        where department_id = ${item.department_id}
+	    </foreach>
+	</update>
+	<!-- 	职位批量修改排序-->
+	<update id="positionPriority" parameterType="Position">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update Position
+	        <set>
+	            priority=${item.priority}
+	        </set>
+	        where position_id = ${item.position_id}
+	    </foreach>
+	</update>
+	<!-- 	 查询职位的信息-->
+	<select id="findPosition" resultType="Position">
+		select * from position where department_id = ${department_id} and effective = 1 order by priority
+	</select>
+	<!-- 	 修改职位的信息-->
+	<update id="updatePosition">
+		update position set position = #{position_name} where position_id = ${position_id}
+	</update>
+	<!-- 	 新增职位的信息-->
+	<insert id="addPosition">
+		insert into position (department_id,position,effective) values (${departMent_id},#{position_name},1)
+	</insert>
+	<!-- 	 物理删除职位的信息-->
+	<update id="deletePosition">
+	update position set effective = 0 where position_id = ${position_id}
+	</update>
+	<!--查询职位和人员之间的信息  -->	
+	<select id="findPositionUser" resultType="PositionUser">
+		select PositionUser.*,userInfo.user_name from 
+		PositionUser left join userInfo on PositionUser.user_id = userInfo.user_id where PositionUser.position_id = ${position_id} and PositionUser.effective =1
+		and userInfo.effective =1 order by PositionUser.priority
+	</select>
+	<!--人员排序的修改  -->
+	<update id="positionUserPriority" parameterType="PositionUser">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update PositionUser
+	        <set>
+	            priority=${item.priority}
+	        </set>
+	        where id = ${item.id}
+	    </foreach>
+	</update>
+	
+</mapper>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.configInfor.mapper.ConfigInforMapper">
+	<!--查询全部的定时任务  -->
+	<select id="findTimmerCron" resultType = "TimmerCron">
+		select * from timmer_cron where effective = 1 
+	</select>
+	
+	<!--查询全部的定时任务  -->
+	<select id="findCron" resultType = "int">
+		select count(*) from timmer_cron where effective = 1 and cron = #{cron} 
+	</select>
+	
+	<!--新增定时任务  -->
+	<insert id="save_timmer">
+		insert into timmer_cron (mode,ttime,createTime,cron,jobName,user_id,effective) values (#{mode},#{ttime},getDate(),#{cron},#{jobName},${user_ids},1)
+	</insert>
+	
+	<!-- 查询定时任务jobName -->
+	<select id="findByName" resultType = "TimmerCron">
+		select * from timmer_cron where effective = 1  and jobName = #{jobName}
+	</select>
+	
+	<!-- 查询定时任务 Id-->
+	<select id="findById" resultType = "TimmerCron">
+		select * from timmer_cron where effective = 1  and id = ${id}
+	</select>
+	<!--物理删除定时任务  -->
+	<update id="deleteTimmerCron">
+		update timmer_cron set effective = 0 where id = ${id}
+	</update>
+	<!--修改定时任务器  -->
+	<update id="update_timmer">
+		update timmer_cron set mode = #{mode},ttime = #{ttime},cron = #{cron},jobName = #{jobName},user_id = #{user_ids} where id = ${id}
+	</update>
+	<!-- 根据公司ID和分组类型查询定时任务 -->
+	<select id="findTimmerCron_configure" resultType = "TimmerCron">
+		SELECT
+			dbo.Timmer_everyData_workInfo.id,
+			dbo.Timmer_everyData_workInfo.timerName,
+			dbo.Timmer_everyData_workInfo.company_id,
+			dbo.Timmer_everyData_workInfo.timmer_id,
+			dbo.Timmer_everyData_workInfo.group_id,
+			dbo.Timmer_cron.Mode,
+			dbo.Timmer_cron.TTime,
+			dbo.Timmer_cron.CreateTime,
+			dbo.Timmer_cron.Cron,
+			dbo.Timmer_cron.JobName,
+			dbo.Timmer_cron.user_id
+			
+			FROM
+			dbo.Timmer_everyData_workInfo
+			INNER JOIN dbo.Timmer_cron ON dbo.Timmer_everyData_workInfo.timmer_id = dbo.Timmer_cron.id
+			where company_id = #{company_id} and group_id = #{group_id} and dbo.Timmer_everyData_workInfo.effective = 1 and dbo.Timmer_cron.effective = 1
+	</select>
+	<!--下拉框查询定时任务器  -->
+	<select id="findTimmer" resultType = "Combox">
+		select id,jobName as text from Timmer_cron where effective = 1
+	</select>
+	
+	<!-- 新增定时任务 -->
+	<insert id="configureAdd_timmer">
+		insert into Timmer_everyData_workInfo (timerName,company_id,timmer_id,group_id,effective) values (#{timer_name},#{company_id},#{timmer_id},#{group_id},1)
+	</insert>
+	<!--根据ID查询计算工时定时任务  -->
+	<select id="findTimmerByWorkId" resultType = "TimmerCron">
+		select * from Timmer_everyData_workInfo where id = ${id}
+	</select>
+	<!--修改定时任务  -->
+	<update id="configureupdate_timmer">
+		update Timmer_everyData_workInfo set timerName = #{timer_name},timmer_id = ${timmer_id} where id = ${id}
+	</update>
+	
+	<!--删除定时任务  -->
+	<update id="deleteTimmerCron_configure">
+		update Timmer_everyData_workInfo set effective = 0 where id = ${id}
+	</update>
+	<!--查询定时时间下的任务  -->
+	<select id="findTimer" resultType="TimmerCron">
+		select * from timmer_everyData_workInfo where timmer_id = ${timmer_id}
+	</select>
+	<!--查询公司下的所有用户  -->
+	<select id="findUserList" resultType="User">
+		select userInfo.*,companyInfo.enable_application,employeeType.nationalRestSystem,monthVacationDay,overTimeLimit,lateLimit,mealAllowance from 
+		userInfo left join 
+		companyInfo on userInfo.company_id =companyInfo.id  left join employeeType on userInfo.employeeTypeId = employeeType.id
+		where userInfo.company_id = ${company_id} and userInfo.effective = 1 
+	</select>
+	<!--查询用户一天的打卡时长  -->
+	<select id="findAttendanceRecordByUserId" resultType="AttendanceRecord">
+		select AttendanceRecord.*,cc.rule_time_work,cc.rule_time_off_work,cc.rule_rest_start,
+		cc.rule_rest_end from AttendanceRecord 
+		left join (select * from attendancerule where effective = 1) cc on AttendanceRecord.rule_id =cc.id  
+		where user_id  = ${user_id} and attendance_time between #{bt} and #{et} and result_id in (1,2,3,4,7) order by attendance_time
+	</select>
+	<!--修改每日工作时间  -->
+	<update id="updateWorkingUser">
+		update workingTimeUser set working = ${hours},whetherWorking = ${whetherWorking},whetherMealAllowance = ${whetherMealAllowance},
+		whetherLater = ${whetherLater},whetherLeaveEarly = ${whetherLeaveEarly},laterTime = ${qiandaoMinute},leaveEarly = ${qiantuiMinute},lackSignIn = ${lackSignIn},
+		lackSignBack = ${lackSignBack}
+		 where user_id = ${user_id} and date = #{bt}
+	</update>
+	<!--查询人员还没有处理的已经审核过的加班申请  -->
+	<select id="findOverTimeRecords" resultType="OverTimeRecord">
+		select OverTimeRecord.*,OvertimeType.coefficient from OverTimeRecord left join OvertimeType on OvertimeType.overtime_type_id = OverTimeRecord.overTimeType_id where user_id  = ${user_id} and status = 0 and result_id = 7 and 
+		OvertimeType.effective = 1 and OverTimeRecord.effective = 1
+	</select>
+	
+	<!--查询人员还没有处理的已经审核过的假期申请  -->
+	<select id="findVacationRecords" resultType="VacationRecord">
+		select VacationRecord.*,VacationType.coefficient from VacationRecord left join VacationType on VacationType.vacation_type_id = VacationRecord.vacation_type_id where user_id  = ${user_id} and status = 0 and result_id = 7 and 
+		VacationType.effective = 1 and VacationRecord.effective = 1
+	</select>
+	
+	<!--修改人员的加班时间  -->
+	<update id="updateUserOvertime" >
+		update WorkingTimeUser set overtimeTime = ${overtimeHours},whetherOverTime = ${whetherOverTime} where user_id = ${user_id} and date = #{date}
+	</update>
+	<!--修改人员的休假时间  -->
+	<update id="updateUservacation" >
+		update WorkingTimeUser set vacationTime = ${vacationHours} where user_id = ${user_id} and date = #{date}
+	</update>
+	
+	<!--修改加班申请的处理状态  -->
+	<update id="updateOvertimeStatus">
+		update OverTimeRecord set status = 1 where id = #{id}
+	</update>
+	<!--修改假期申请的处理状态  -->
+	<update id="updateVacationStatus">
+		update VacationRecord set status = 1 where id = #{id}
+	</update>
+	<!--查询人员的加班时间  -->
+	<select id="findOvertimeHour" resultType="float">
+		select over_time from UserBase where user_id = ${user_id}
+	</select>
+	<!-- 修改人员的加班时间 -->
+	<update id="updateOvertimeUser">
+		update UserBase set over_time = ${allovertimeHour} where user_id = ${user_id}
+	</update>
+	<!--查询人员的所有的请假时间  -->
+	<select id="findAllUserBaseVacationHours" resultType="String">
+		select leave_time from UserBase where user_id = ${user_id}
+	</select>
+	<!--修改人员的所有请假时间  -->
+	<update id="updateAllUserBaseVacationHours">
+		update UserBase set leave_time = ${alluserBasevacationHour} where user_id = ${user_id}
+	</update>
+	<!--查询公司下所有人员的总加班，总调休信息  -->
+	<select id="findUserBaseList" resultType="UserBase">
+		select * from userBase where company_id= ${company_id}
+	</select>
+	
+	<update id="updateFaceStatus">
+		update face set serverStatus = 1 where id = ${id}
+	</update>
+	
+	<update id="updateFaceStatusList" parameterType="java.util.List">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			update face set serverStatus = 1 where id = ${item}
+		</foreach>
+	</update>
+	
+	<delete id="deleteFace">
+		delete from face where id = ${id}
+	</delete>
+	
+	<delete id="deleteFaceList">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			delete from face where id = ${item}
+		</foreach>
+	</delete>
+	
+	<select id="findworkingTime" resultType="WorkingTime">
+		select * from WorkingTime where date = #{date} and company_id = 1
+	</select>
+	
+	<select id="findOvertimeType" resultType="OvertimeType">
+		select * from OvertimeType where effective = 1
+	</select>
+	
+	<select id="findWorkingTimeList" resultType="WorkingTime">
+		select * from workingTime order by company_id,date
+	</select>
+	
+	<select id="findWeChatInfo" resultType="WeChatInfo">
+		select * from WeChatInfo 
+	</select>
+	<!-- 修改微信的accesstoken -->
+	<update id="updateWeChatInfoAccessToken">
+		update WeChatInfo set access_token = #{access_token},access_token_time = #{expires}
+	</update>
+	<!--修改微信的ticket  -->
+	<update id="updateWeChatInfoTicket">
+		update WeChatInfo set ticket = #{ticket},ticket_time = #{expires}
+	</update>
+	<insert id="addUnionId">
+		if  exists(SELECT * FROM WeChatUnionid WHERE unionid=#{unionid})
+		 	select 1
+		ELSE 
+			insert into WeChatUnionid (unionid,openid) values (#{unionid},#{openId})
+	</insert>
+	<delete id="deleteUnionId">
+	delete from  WeChatUnionid where openid = #{openId}
+	</delete>
+</mapper>

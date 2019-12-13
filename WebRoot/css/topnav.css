@@ -1,0 +1,16 @@
+*{padding:0;margin:0;}
+ul{list-style:none;}
+a{text-decoration:none;}
+.m-top{height:71px;background:#013255 url(../img/icon3.png) no-repeat left center;padding-top:10px;padding-left:44px;position:relative}
+.m-nav{height:71px;background:url(../img/icon4.png) repeat-x center;position:relative;}
+.u-logo{width:73px;height:73px;background:url(../img/icon2.png) no-repeat center;position:absolute;left:39px;top:0px;}
+.m-nav-con li a{color:#fff;font-family:"微软雅黑";line-height:40px;display:block;padding:0 33px;}
+.m-nav-con li a:hover{background:#003459;}
+.m-nav-con li{float:left;}
+.m-first-li{margin-left:224px;}
+.m-active{background:#003459;}
+.m-btn222{width:100px;height:30px;background:#086095 url(../img/btn.png) no-repeat 6px center;position:absolute;right:40px;top:0;bottom:0;margin:auto;color:#fff;font:12px/30px "΢���ź�";text-indent:39px;border-radius:4px;box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.2);}
+.m-btn222:hover{background-color:#0079c1;}
+.u-welcome{font:15px/40px "΢���ź�";color:#eff0f2;position:absolute;right:180px;top:0;}
+.u-loginuser{height:30px;color:#eff0f2;no-repeat 6px center;position:absolute;right:180px;top:0;bottom:0;margin:auto;font:12px/30px "΢���ź�";text-indent:39px;border-radius:4px;}
+.m-mm{position:absolute;right:300px;text-indent:39px;top:20px}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace命名空间，作用就是对sql进行分类化管理，理解sql隔离 注意：使用mapper代理方法开发，namespace有特殊重要的作用 -->
+<mapper namespace="net.zhongbenshuo.attendance.foreground.version.mapper.VersionMapper">
+
+	<select id="getNewVersionUpdateLog" resultType="VersionInfo">
+		select Top 20 * from
+		VersionInfo where apktypeId = ${apkTypeId}   order by VersionId desc
+	</select>
+
+	<select id="findVersionInfo" parameterType="java.lang.Integer"
+		resultType="VersionInfo">
+		select VersionId,ApkTypeId,VersionCode,VersionName,VersionUrl,VersionType,VersionLog,VersionSize,MD5Value,VersionCount
+		,VersionFileName,VersionFileName,VersionFileUrl,CONVERT(VARCHAR(12),createTime,120) as createTime from VersionInfo where VersionId=(
+		select
+		MAX(VersionId) from VersionInfo where  VersionType='stable'
+		)
+	</select>
+
+	<update id="updateDownloadAmount" parameterType="ApkTypeInfo">
+		update
+		ApkTypeInfo set ApkDownloadAmount=#{apkDownloadAmount} 
+	</update>
+
+	<insert id="uploadNewVersion" parameterType="VersionInfo">
+		insert into
+		VersionInfo
+		(ApkTypeId,VersionCode,VersionName,VersionUrl,VersionType,VersionLog,VersionSize,MD5Value,VersionCount,VersionFileName,VersionFileUrl,CreateTime)
+		values(#{apkTypeId},#{versionCode},#{versionName},#{versionUrl},#{versionType},#{versionLog},#{versionSize},#{md5Value},#{versionCount},#{versionFileName},#{versionFileUrl},getDate())
+	</insert>
+
+	<select id="findApkTypeInfo" parameterType="java.lang.Integer"
+		resultType="ApkTypeInfo">
+		select * from ApkTypeInfo 
+	</select>
+
+	<select id="findVersionLog"  resultType="VersionInfo">
+		select * from VersionInfo where 
+		<if test="versionType!=null and versionType!='' and versionType!='all'">
+			VersionType = #{versionType} and
+		</if>
+		 1 = 1
+		order by CreateTime desc
+	</select>
+
+	<delete id="deleteVersion" parameterType="java.lang.Integer">
+		delete from
+		VersionInfo where VersionId = #{versionId}
+	</delete>
+
+	<select id="findApkInfo" resultType="ApkTypeInfo">
+		select * from ApkTypeInfo
+		order by ApkTypeId asc
+	</select>
+
+	<insert id="addApkInfo" parameterType="ApkTypeInfo">
+		insert into ApkTypeInfo
+		(ApkTypeName,ApkTypeIcon)
+		values(#{apkTypeName},#{apkTypeIcon})
+	</insert>
+
+	<update id="editApkInfo" parameterType="ApkTypeInfo">
+		update ApkTypeInfo set
+		ApkTypeName=#{apkTypeName} where  apkTypeId = ${apkTypeId}
+	</update>
+
+	<delete id="deleteApkInfo" >
+		delete from
+		ApkTypeInfo where apkTypeId = ${apkTypeId}
+	</delete>
+	
+	<select id="findVersionInfo2" parameterType="java.lang.Integer"
+		resultType="VersionInfo">
+		select * from VersionInfo where VersionId=(
+		select
+		MAX(VersionId) from VersionInfo where  VersionType='beta'
+		)
+	</select>
+	
+	<select id="findApkTypeId"  resultType="Combox">
+		select ApkTypeId as id,ApkTypeName as text from ApkTypeInfo 
+	</select>
+
+	<update id="updateNumberOfShareByLoginId" parameterType="ApkTypeInfo">
+		update TABLE_Login set NumberOfShare=NumberOfShare+1 where LoginId=#{loginId}
+	</update>
+	
+	<select id="findVersionInfoList"  resultType="VersionInfo">
+		select ApkTypeId,VersionCode from VersionInfo where VersionId in (
+		select MAX(VersionId) from VersionInfo where VersionType='stable' group by ApkTypeId
+		)
+	</select>
+	<select id="findStationInfoList" resultType="StationInfo">
+		select * from stationInfo
+	</select>
+</mapper>

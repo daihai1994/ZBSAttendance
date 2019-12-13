@@ -1,0 +1,60 @@
+
+/****************************鏇存敼榛樿灞炴��****************************/
+* { margin: 0px; padding: 0px;  -webkit-tap-highlight-color: rgba(0,0,0,0);/*鍙栨秷琛ㄥ崟鍏冪礌鍦ㄦ墜鏈轰腑鐐瑰嚮鍑虹幇杈规鐨勬牱寮�*/ tap-highlight-color: rgba(0,0,0,0); }
+html,body{height:100%;min-height:540px;min-width:960px;overflow:auto;}
+body{position:relative;}
+body, textarea, select, input, button { font-family: "Microsoft YaHei",helvetica,arial;}
+i, em { font-style: normal; display:block;}
+ul { list-style: none; }
+a, input { outline: none; background:none;color:#333;}
+a, a img { border: 0 none; text-decoration: none; color: #333;}
+::-webkit-input-placeholder { color: #cccccc; } 
+:-moz-placeholder { color: #cccccc; } 
+::-moz-placeholder { color: #cccccc; } 
+:-ms-input-placeholder { color: #cccccc; }
+
+/****************************甯哥敤鏍峰紡****************************/
+.left { float: left; }
+.right { float: right; }
+.block{display:block;}
+.inline-block{display:inline-block;}
+.textalign { text-align: center; }
+.hidden{overflow:hidden;}
+.clearfix:after { content: "."; display: block; height: 0; font-size: 0; clear: both; visibility: hidden; }
+.clearfix { display: block; }
+.relative{position:relative;}
+
+/****************************header鏍峰紡****************************/
+.g-bg-color{background:#008080;height:100%;}
+.g-wrap{width:940px;height:502px;position:absolute;left:50%;top:50%;margin-left:-470px;margin-top:-251px;background-position:right 306px;}
+.g-wrap-container{width:884px;height:100%;margin:0 auto;}
+.m-top div{width:26px;height:26px;margin-left:22px;}
+.m-top p{line-height:40px;font-size:35px;font-weight: bold;color:white;margin-left:10px;}
+
+  #login_code {
+                font-size: 25px;
+                font-weight: bold;
+                border: 0;
+                letter-spacing: 2px;
+                color: black;
+            }
+/****************************body鏍峰紡****************************/
+.m-login{height:450px;background:#fff url(../img/main.jpg) no-repeat left bottom;margin-top:20px;}
+.u-tit{padding:30px 0 0 86px;float:left;}
+.u-tit div{font-size:36px;color:#333333;}
+.u-tit i{font-size:14px;color:#999999;}
+.m-form{width:300px;height:100%;float:right;}
+form div{width:245px;height:37px;border:1px solid #999999;}
+.u-form-1{margin-top:82px;}
+.u-form-img{width:40px;height:100%;background:#e3e3e3;}
+.u-form-img strong{width:20px;height:19px;position:absolute;left:0;right:0;top:0;bottom:0;margin:auto;background:url(../img/pt-1.png) no-repeat 0 -50px;*margin:9px 0 0 10px;}
+.u-form-img-2 strong{*margin:9px 0 0 12px;}
+.u-form-img-2 strong{background-position:0 -100px;width:16px;height:19px;}
+.u-form-input{width:205px;height:100%;}
+.u-form-input input{width:186px;margin:9px 0 0 12px;height:20px;line-height:18px;border:none;font-size:14px;}
+.u-form-2{margin-top:30px;}
+.u-btn{width:247px;height:42px;border:none;background:#2f94c9;color:#fff;margin-top:56px;font-size:16px;cursor:pointer;}
+.u-btn:hover{background:#1b6c97;}
+
+/****************************footer鏍峰紡****************************/
+.g-bottom-txt{color:#999999;font-size:12px;margin-top:37px;}

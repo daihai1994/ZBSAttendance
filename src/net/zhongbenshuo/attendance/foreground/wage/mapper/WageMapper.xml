@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.wage.mapper.WageMapper">
+	<select id="findwage" resultType="Wage">
+		declare @aaa int
+		select @aaa = count(*) from wage
+		left join userinfo on wage.user_id = userinfo.user_id	
+		left join department on issuing_department_id = department.department_id
+		 where wage.company_id = ${company_id}
+		and wage.year = ${year} and wage.month = ${month}
+		<if test="userName!=null and userName!=''">
+		and	wage.user_id = #{userName} 
+		</if>
+		
+			select top ${rows} * from (
+		SELECT ROW_NUMBER() OVER (ORDER BY wage.user_id) AS rownumber,@aaa AS size ,wage.*,userinfo.user_name from wage
+		left join userinfo on wage.user_id = userinfo.user_id	
+		left join department on issuing_department_id = department.department_id
+		 where wage.company_id = ${company_id}
+		and wage.year = ${year} and wage.month = ${month}
+		<if test="userName!=null and userName!=''">
+		and	wage.user_id = #{userName} 
+		</if>) 
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+	
+	<select id="findUserSize" resultType="int">
+		select count(*) from userInfo where user_id = ${user_id}
+	</select>
+	
+	<select id="findDempartmentSize" resultType="int">
+		select count(*) from department where department =#{issuing_department_id}
+	</select>
+	
+	<select id="findAllUser" resultType="Wage">
+		select userinfo.user_id,userinfo.user_name,cc.working,cc.realityOvertimeTime as overtime_hours,cc.mealAllowanceDay,cc.workingDay,cc.laterSize,cc.leaveEarlySize,cc.lackSignInSize,
+		cc.lackSignBackSize  from 
+		userinfo left join (select * from userbaseMonth where year = ${year} and month = ${month}) cc 
+		on cc.user_id = userinfo.user_id and cc.company_id = userinfo.company_id
+		where userinfo.effective = 1 and userinfo.company_id = ${company_id}
+	</select>
+	
+	<insert id="addWageList" useGeneratedKeys="false">
+		<foreach collection="list" item="item" index="index"  separator=";">
+			IF EXISTS(select user_id from wage where user_id = #{item.user_id} and year =#{item.year} and month = #{item.month} )
+			update wage set wage_basic = #{item.wage_basic},attendance_days = #{item.attendance_days},subsidy = #{item.subsidy},overtime_hours = #{item.overtime_hours},
+			social_security_fund_persional = #{item.social_security_fund_persional},social_security_fund_company = #{item.social_security_fund_company},
+			individual_income_tax = #{item.individual_income_tax},wage_real = #{item.wage_real},agent_distribution_boc = #{item.agent_distribution_boc},
+			agent_distribution_cmbc = #{item.agent_distribution_cmbc},issuing_department_id = #{item.issuing_department_id},time = getDate() where 
+			user_id = #{item.user_id} and year =#{item.year} and month = #{item.month}
+			ELSE 
+			insert into wage (user_id,month,wage_basic,attendance_days,subsidy,overtime_hours,social_security_fund_persional,social_security_fund_company,
+			individual_income_tax,wage_real,agent_distribution_boc,agent_distribution_cmbc,issuing_department_id,time,year,reimbursement,achievement,
+			company_id) values  (#{item.user_id},#{item.month},#{item.wage_basic},#{item.attendance_days},#{item.subsidy},
+			#{item.overtime_hours},#{item.social_security_fund_persional},#{item.social_security_fund_company},
+			#{item.individual_income_tax},#{item.wage_real},#{item.agent_distribution_boc},#{item.agent_distribution_cmbc},
+			#{item.issuing_department_id},getDate(),#{item.year},#{item.reimbursement},#{item.achievement},#{item.company_id})
+		</foreach>
+	</insert>
+	<select id="findWageMail" resultType="Wage">
+		select userInfo.mail_address,wage.*,userInfo.user_name from userInfo 
+		left join wage on userInfo.user_id = wage.user_id and userInfo.company_id = wage.company_id 
+		where wage.year = ${year} and wage.month = ${month} and userInfo.mail_address is not null 
+		and userInfo.mail_address !='' and userInfo.company_id = ${company_id} and userInfo.user_id in (10000020,10000050)
+	</select>
+	<!-- 查询工资报表（自定义） -->
+	<select id="findWage" resultType="Wage">
+		select wage.*,userinfo.user_name from wage 
+		left join userInfo on wage.user_id = userInfo.user_id and wage.company_id = userInfo.company_id 
+		where wage.company_id = ${company_id} and wage.year between ${bt_year} and ${et_year} and month between ${bt_month} and ${et_month} 
+		order by wage.user_id ,wage.year,wage.month
+	</select>
+	
+	<!-- 查询工资报表（按月查询全部的月份） -->
+	<select id="findWageMonthAll" resultType="Wage">
+		select wage.*,userinfo.user_name from wage 
+		left join userInfo on wage.user_id = userInfo.user_id and wage.company_id = userInfo.company_id 
+		where wage.company_id = ${company_id} and wage.year = ${month_year}  order by wage.user_id ,wage.year,wage.month
+	</select>
+	
+		<!-- 查询工资报表（按月查询单个月） -->
+	<select id="findWageMonth" resultType="Wage">
+		select wage.*,userinfo.user_name from wage 
+		left join userInfo on wage.user_id = userInfo.user_id and wage.company_id = userInfo.company_id 
+		where wage.company_id = ${company_id} and wage.year = ${month_year}  and wage.month = ${month_month} order by wage.user_id ,wage.year,wage.month
+	</select>
+	
+		<!-- 查询工资报表（按季度查询某一个季度） -->
+	<select id="findWageQuarter" resultType="Wage">
+		select wage.*,userinfo.user_name from wage 
+		left join userInfo on wage.user_id = userInfo.user_id and wage.company_id = userInfo.company_id 
+		where wage.company_id = ${company_id} and wage.year = ${quarter_year}  and wage.month between ${btMonth} and ${etMonth} order by wage.user_id ,wage.year,wage.month
+	</select>
+</mapper>

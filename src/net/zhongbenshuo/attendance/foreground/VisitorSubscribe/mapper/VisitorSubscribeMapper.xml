@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.VisitorSubscribe.mapper.VisitorSubscribeMapper">
+	<select id="findvisitorSubscribe" resultType="VisitorSubscribe">
+		declare @aaa int
+		select @aaa = count(*) from  visitorSubscribe left join VisitorInfo on visitorSubscribe.user_id = VisitorInfo.user_id where visitorSubscribe.effective = 1 and 
+		visitorSubscribe.startDate &gt; #{bt} and visitorSubscribe.endDate &lt; #{et} and visitorSubscribe.userInfo_id = ${user_id}and VisitorInfo.effective = 1
+		
+		select @aaa AS size ,visitorSubscribe.*,VisitorInfo.user_name from visitorSubscribe left join VisitorInfo on visitorSubscribe.user_id = VisitorInfo.user_id 
+		where visitorSubscribe.effective = 1 and 
+		visitorSubscribe.startDate &gt; #{bt} and visitorSubscribe.endDate &lt; #{et} and visitorSubscribe.userInfo_id = ${user_id} and VisitorInfo.effective = 1 order by 
+		status ,createTime desc
+	</select>
+	
+	<update id="submitAuditvisitorSubscribe">
+		update visitorSubscribe set status = ${audit_status},auditBreaks = #{audit_resmarks} where id = ${id}
+	</update>
+	
+	<select id="findVistorSubscribeById">
+		select VisitorSubscribe.*,VisitorInfo.user_name from VisitorSubscribe left join VisitorInfo on VisitorSubscribe.user_id = VisitorInfo.user_id where VisitorSubscribe.id = ${id}
+	</select>
+	
+	<insert id="insertFace" parameterType="Face">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into face (user_id,url,createTime,startDate,startTime,endTime,updateTime,identity,name,endDate,effectiveDay,effective,workingDay,serverStatus) 
+		values (#{user_id},#{url},getDate(),#{startDate},#{startTime},#{endTime},getDate(),1,#{user_name},#{endDate},#{effectiveDay},1,#{workingDay},0)
+	</insert>
+</mapper>

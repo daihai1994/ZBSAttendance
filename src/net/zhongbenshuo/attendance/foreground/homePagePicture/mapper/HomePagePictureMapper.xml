@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.homePagePicture.mapper.HomePagePictureMapper">
+	<!-- 	轮播图 -->
+	<select id="findhomePagePicture" resultType="HomePagePicture">
+		declare @aaa int
+		select @aaa = count(*) from HomePagePicture 
+		where effective =1 and createTime BETWEEN #{bt} and #{et} and company_id = ${company_id}
+		<if test="remarks!=null and remarks!=''">
+			and	remarks like '%${remarks}%'
+		</if>
+		select top ${rows} *  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY effective desc,createTime desc ) AS rownumber,@aaa AS size ,
+		id,company_id,remarks,pictureUrl,level,CONVERT(VARCHAR(19),createTime,120) as createTime,
+		effective,addressUrl,force,state from HomePagePicture
+		where effective =1 and createTime BETWEEN #{bt} and #{et} and company_id = ${company_id}
+		<if test="remarks!=null and remarks!=''">
+			and	remarks like '%${remarks}%'
+		</if>)
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+	
+	<!-- 新增轮播图 -->
+	<insert id="uploadImg">
+		insert into HomePagePicture (company_id,remarks,pictureUrl,createTime,effective,addressUrl,state) values (${company_id},#{remarks},#{fileDirPath},getDate(),${effective},
+		#{addressUrl},#{state})
+	</insert>
+	<!--查询轮播图图片  -->
+	<select id="findHomePagePictureByID" resultType="HomePagePicture">
+		select * from HomePagePicture where id = ${id}
+	</select>
+	<!--修改轮播图，不带图片的  -->
+	<update id="updateuploadNotImg" >
+		update HomePagePicture set remarks = #{remarks},state = ${state},addressUrl = #{addressUrl},effective = ${effective} where id = ${id}
+	</update>
+	
+	<!--修改轮播图，带图片的  -->
+	<update id="updateuploadImg" >
+		update HomePagePicture set remarks = #{remarks},state = ${state},addressUrl = #{addressUrl},effective = ${effective},pictureUrl = #{fileDirPath} where id = ${id}
+	</update>
+</mapper>

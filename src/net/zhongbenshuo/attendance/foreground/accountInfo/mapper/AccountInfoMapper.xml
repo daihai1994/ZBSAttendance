@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.accountInfo.mapper.AccountInfoMapper">
+	<!-- 查询公司下的权限信息 -->
+	<select id="findAuthority" resultType="Authority">
+		select * from Authority where company_id = ${company_id} and effective = 1 order by authority_describe
+	</select>
+	<!-- 修改权限信息 -->
+	<update id="updateAuthority">
+		update Authority set authority_describe = #{authority_describe} where id = ${authority_id}
+	</update>
+	<!-- 新增权限信息 -->
+	<insert id="addAuthority">
+		insert into Authority (authority_describe,effective,company_id) values (#{authority_describe},1,#{company_id})
+	</insert>
+	<!--物理删除权限信息 -->
+	<update id="deleteAuthority">
+		update Authority set effective = 0 where id = ${authority_id}
+	</update>
+	<!-- 查询账号信息 -->
+	<select id="findAccountInfo" resultType="User">
+		declare @bbb int
+		select @bbb =  count(*) from UserInfo left join Gender on UserInfo.gender_id =Gender.gender_id 
+		left join CompanyInfo on UserInfo.company_id = CompanyInfo.id
+		 where UserInfo.company_id = ${company_id} and UserInfo.effective = 1  
+			<if test="user_id!=null and user_id!=''">
+				and	UserInfo.user_id = #{user_id} 
+			</if>
+			<if test="phone_number!=null and phone_number!=''">
+				and	UserInfo.phone_number LIKE '%${phone_number}%'
+			</if>
+			<if test="user_name!=null and user_name!=''">
+				and	user_name LIKE '%${user_name}%' 
+			</if>
+			<if test="jobNumber!=null and jobNumber!=''">
+				and	job_number LIKE '%${jobNumber}%'  
+			</if>
+			<if test="role==0">
+				and	UserInfo.id = ${id}
+			</if>
+	
+		select top ${rows} size ,
+		job_number,id,user_id,user_pwd,gender_id,gender,company_name,user_name,phone_number,mail_address,contact_address
+		 ,emergency_contact_name,emergency_contact_phone,icon_url,role,effective,department_id,position_id,authority_id,employeeTypeId,
+		time_register,ip_register,company_id,entry_time  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY role desc,user_id) AS rownumber,@bbb AS size ,
+		UserInfo.job_number,UserInfo.employeeTypeId,UserInfo.id,UserInfo.user_id,user_pwd,UserInfo.gender_id,Gender.gender,CompanyInfo.company_name,user_name,UserInfo.phone_number,mail_address,contact_address
+		 ,emergency_contact_name,emergency_contact_phone,icon_url,role,UserInfo.effective,department_id,position_id,UserInfo.authority_id,CONVERT(VARCHAR(11),entry_time,120) as entry_time
+		,CONVERT(VARCHAR(19),time_register,120) as time_register,ip_register,UserInfo.company_id  
+		from UserInfo 
+		left join Gender on 
+		UserInfo.gender_id =Gender.gender_id 
+		left join CompanyInfo on 
+		UserInfo.company_id = CompanyInfo.id
+		 where UserInfo.company_id = ${company_id} and UserInfo.effective = 1  
+		<if test="user_id!=null and user_id!=''">
+			and	UserInfo.user_id = #{user_id} 
+		</if>
+		<if test="phone_number!=null and phone_number!=''">
+			and	UserInfo.phone_number LIKE '%${phone_number}%'
+		</if>
+		<if test="user_name!=null and user_name!=''">
+			and	user_name LIKE '%${user_name}%' 
+		</if>
+		<if test="jobNumber!=null and jobNumber!=''">
+			and	job_number LIKE '%${jobNumber}%'  
+		</if>
+		<if test="role==0">
+			and	UserInfo.id = ${id}
+		</if>)
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+	<!-- 查询公司下的部门信息-->
+	<select id="findDepartment" resultType="Combox">
+		select department_id as id,department as text from Department where company_id = ${company_id} and effective = 1 order by priority
+	</select>
+	<!-- 查询部门下的职位信息-->
+	<select id="findPosition" resultType="Combox">
+		select position_id as id,position as text from Position where department_id = ${department_id} and effective = 1 order by position
+	</select>
+	<!-- 查询最大的user_id-->
+	<select id="findUser_Id" resultType="String">
+		select top 1 user_id from userInfo order by user_id desc
+	</select>
+	<!-- 新增账号信息-->
+	<insert id="addAccountInfo">
+		insert into userInfo (job_number,user_id,user_pwd,gender_id,user_name,phone_number,mail_address,contact_address,emergency_contact_name,
+		emergency_contact_phone,role,effective,time_register,ip_register,company_id,department_id,position_id,entry_time) 
+		values (#{job_number},#{user_id},#{user_pwd},#{gender},#{user_name},#{phone_number},#{mail_address},#{contact_address},#{emergency_contact_name},
+		#{emergency_contact_phone},#{role},1,getDate(),#{ip},#{company_id},#{departmentList},#{positionList},#{entry_time})
+	</insert>
+	<!-- 修改账号信息-->
+	<update id="updateAccountInfo">
+		update userInfo set job_number = #{job_number}, user_name = #{user_name},gender_id = #{gender},phone_number = #{phone_number},
+		mail_address = #{mail_address},contact_address = #{contact_address},emergency_contact_name = #{emergency_contact_name},role = ${role},
+		emergency_contact_phone = #{emergency_contact_phone},department_id = #{departmentList},position_id = #{positionList},entry_time = #{entry_time} where id = ${accountInfo_id}
+	</update>
+	<!-- 	根据department_id查询department（是以逗号分隔的） -->
+	<select id="findDepartmentName" resultType="String">
+	 	SELECT ',' + department FROM Department where department_id in (${department_id}) order by charindex(','+ LTRIM(department_id) +',',',${department_id},')  FOR xml path('')
+	</select>
+	<!-- 	根据position_id查询position（是以逗号分隔的） -->
+	<select id="findPositionName" resultType="String">
+	 	SELECT ',' + position FROM Position where position_id in (${position_id})  order by charindex(','+ LTRIM(position_id) +',',',${position_id},')  FOR xml path('')
+	</select>
+	<!-- 	根据authority_id查询authority（是以逗号分隔的） -->
+	<select id="findAuthorityName" resultType="String">
+	 	SELECT ',' + authority_describe FROM Authority where id in (${authority_id}) order by charindex(','+ LTRIM(id) +',',',${authority_id},')  FOR xml path('')
+	</select>
+	<!--物理删除账号信息 -->
+	<update id="deleteAccountInfo">
+		update UserInfo set effective = 0 where id = ${accountInfo_id}
+	</update>
+	<!--查询公司下的最大的工号 -->
+	<select id="findJobNumber" resultType="String">
+	select max(job_number) from UserInfo where company_id = ${company_id}
+	</select>
+	<!--查询工号是否存在 -->
+	<select id="findJobNumberCount" resultType="int">
+		select count(*) from UserInfo where company_id = ${company_id} and job_number = #{job_number}
+		<if test="accountInfo_id!=null and accountInfo_id!=''">
+			and	id != #{accountInfo_id} 
+		</if>
+	</select>
+	<!--配置账号权限信息 -->
+	<update id="addUserAndAuthority">
+		update UserInfo set authority_id = #{authorityId} where id = ${user_id}
+	</update>
+	<!--修改账号基本信息 -->
+	<update id="updateInfo">
+		update UserInfo set ${key} = #{newInfo} where id = ${accountIndfoId}
+	</update>
+	<!--批量新增职位和用户之间的关系 -->
+	<insert id="addPositionUser" parameterType="java.util.List">
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into PositionUser (user_id,Position_id,effective) values (${user_id},${item},1)
+		</foreach>
+	</insert>
+	<select id="findPositionUser" resultType="PositionUser">
+		select * from PositionUser where user_id = ${user_id} and effective = 1
+	</select>
+	<update id="deletePositionUser" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update PositionUser
+	        <set>
+	            effective=0
+	        </set>
+	        where id = ${item}
+	    </foreach>
+	</update>
+	<update id="deletePositionByUser">
+		update PositionUser set  effective=0 where user_id = ${user_id}
+	</update>
+</mapper>

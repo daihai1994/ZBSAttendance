@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.announcement.mapper.AnnouncementMapper">
+	<!--查询公告制度类型  -->
+	<select id="findAnnouncementType" resultType="AnnouncementType">
+		select * from AnnouncementType
+	</select>
+	
+	<!--查询优先级  -->
+	<select id="findPriority" resultType="Priority">
+		select * from Priority
+	</select>
+	<!-- 新增无跳转链接的公告 -->
+	<insert id="uploadImg">
+		insert into Announcement (type_id,title,picture,url,external_link,author,author_id,priority_id,time,effectiveTime,company_id) values (${type},#{title},
+		#{fileDirPath},#{addressUrl},#{external_link},#{user_name},#{user_id},${priority},getDate(),#{effectiveTime},${company_id})
+	</insert>
+	<!--修改公告（带图片）  -->
+	<update id="uploadImgEdit">
+		update Announcement set type_id = ${type},title = #{title},picture = #{fileDirPath},url = #{addressUrl},
+		external_link = #{external_link},author = #{user_name},author_id = #{user_id},priority_id = ${priority},effectiveTime = #{effectiveTime} where id = ${id}
+	</update>
+	<!--修改公告（无图片）  -->
+	<update id="uploadImgEditNotPicture">
+		update Announcement set  type_id = ${type},title = #{title},url = #{addressUrl},
+		author = #{user_name},author_id = #{user_id},priority_id = ${priority},effectiveTime = #{effectiveTime} where id = ${id}
+	</update>
+	<select id="findannouncement" resultType="Announcement">
+		declare @aaa int
+		select @aaa = count(*) from Announcement 
+		left join AnnouncementType on Announcement.type_id = AnnouncementType.type_id
+		left join Priority on Announcement.priority_id = Priority.priority_id
+		where  Announcement.time BETWEEN #{bt} and #{et} and Announcement.company_id = ${company_id}
+		<if test="title!=null and title!=''">
+			and	Announcement.title like '%${title}%'
+		</if>
+		select top ${rows} *  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY effective desc,time desc ) AS rownumber,@aaa AS size ,
+		Announcement.id,Announcement.type_id,AnnouncementType.type,Announcement.title,Announcement.effectiveTime,
+		Announcement.url,Announcement.external_link,Announcement.author,Announcement.author_id,
+		Announcement.priority_id,Priority.priority,CONVERT(VARCHAR(19),Announcement.time,120) as time,
+		Announcement.effective,Announcement.company_id from Announcement 
+		left join AnnouncementType on Announcement.type_id = AnnouncementType.type_id
+		left join Priority on Announcement.priority_id = Priority.priority_id
+		where  Announcement.time BETWEEN #{bt} and #{et} and Announcement.company_id = ${company_id}
+		<if test="title!=null and title!=''">
+			and	Announcement.title like '%${title}%'
+		</if>)
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+</mapper>

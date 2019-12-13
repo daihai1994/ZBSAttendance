@@ -1,0 +1,1910 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.mapper.IAttendanceMapper">
+
+	<resultMap id="UserResultMap" type="User">
+		<id column="user_id" property="user_id" />
+		<id column="gender_id" property="gender_id" />
+		<id column="gender" property="gender" />
+		<id column="user_name" property="user_name" />
+		<id column="phone_number" property="phone_number" />
+		<id column="mail_address" property="mail_address" />
+		<id column="contact_address" property="contact_address" />
+		<id column="emergency_contact_name" property="emergency_contact_name" />
+		<id column="emergency_contact_phone" property="emergency_contact_phone" />
+		<id column="icon_url" property="icon_url" />
+		<id column="role" property="role" />
+		<id column="effective" property="effective" />
+		<id column="time_register" property="time_register" />
+		<id column="ip_register" property="ip_register" />
+		<collection property="relationship" ofType="Relationship">
+			<id column="department_id" property="department_id" />
+			<id column="department" property="department" />
+			<id column="position_id" property="position_id" />
+			<id column="position" property="position" />
+		</collection>
+	</resultMap>
+
+	<resultMap id="AllUserResultMap" type="AllUserInfo">
+		<id column="department_id" property="department_id" />
+		<id column="department" property="department" />
+		<id column="priority" property="priority" />
+		<collection property="users" ofType="User">
+			<id column="user_id" property="user_id" />
+			<id column="gender_id" property="gender_id" />
+			<id column="gender" property="gender" />
+			<id column="user_name" property="user_name" />
+			<id column="phone_number" property="phone_number" />
+			<id column="mail_address" property="mail_address" />
+			<id column="contact_address" property="contact_address" />
+			<id column="emergency_contact_name" property="emergency_contact_name" />
+			<id column="emergency_contact_phone" property="emergency_contact_phone" />
+			<id column="icon_url" property="icon_url" />
+			<id column="role" property="role" />
+			<id column="effective" property="effective" />
+			<id column="time_register" property="time_register" />
+			<id column="ip_register" property="ip_register" />
+			<id column="company_id" property="company_id" />
+			<id column="company_name" property="company_name" />
+			<id column="department_id" property="department_id" />
+			<id column="position_id" property="position_id" />
+			<id column="department" property="department" />
+			<id column="position" property="position" />
+			<id column="job_number" property="job_number" />
+			<id column="authority_id" property="authority_id" />
+			<id column="authority" property="authority" />
+			<id column="faceCount" property="faceCount" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="AllUserInfoAddressBookMap" type="AllUserInfoAddressBook">
+		<id column="department_id_all" property="department_id_all" />
+		<id column="department_all" property="department_all" />
+		<id column="priority" property="priority" />
+		<collection property="users" ofType="User">
+			<id column="user_id" property="user_id" />
+			<id column="gender_id" property="gender_id" />
+			<id column="gender" property="gender" />
+			<id column="user_name" property="user_name" />
+			<id column="phone_number" property="phone_number" />
+			<id column="mail_address" property="mail_address" />
+			<id column="contact_address" property="contact_address" />
+			<id column="emergency_contact_name" property="emergency_contact_name" />
+			<id column="emergency_contact_phone" property="emergency_contact_phone" />
+			<id column="icon_url" property="icon_url" />
+			<id column="role" property="role" />
+			<id column="effective" property="effective" />
+			<id column="time_register" property="time_register" />
+			<id column="ip_register" property="ip_register" />
+			<id column="company_id" property="company_id" />
+			<id column="company_name" property="company_name" />
+			<id column="department_id" property="department_id" />
+			<id column="position_id" property="position_id" />
+			<id column="department" property="department" />
+			<id column="position" property="position" />
+			<id column="job_number" property="job_number" />
+			<id column="authority_id" property="authority_id" />
+			<id column="authority" property="authority" />
+			<id column="faceCount" property="faceCount" />
+		</collection>
+	</resultMap>
+
+	<resultMap id="StatusResultMap" type="Status">
+		<id column="department" property="department" />
+		<collection property="realStatus" ofType="UserStatus">
+			<id column="user_id" property="user_id" />
+			<id column="user_name" property="user_name" />
+			<id column="office" property="office" />
+			<id column="status" property="status" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="AllUserInfoStatusMap" type="AllUserInfoStatus">
+		<id column="department_id" property="department_id" />
+		<id column="department" property="department" />
+		<id column="priority" property="priority" />
+		<collection property="users" ofType="UserInfoStatus">
+			<id column="user_id" property="user_id" />
+			<id column="user_name" property="user_name" />
+			<id column="remarks" property="remarks" />
+			<id column="status" property="status" />
+			<id column="color" property="color" />
+			<id column="phone_number" property="phone_number" />
+			<id column="icon_url" property="icon_url" />
+			<collection property="businessTraveIRecords" ofType="BusinessTraveIRecord">
+				<id column="address" property="address" />
+				<id column="start_time" property="start_time" />
+				<id column="stop_time" property="stop_time" />
+			</collection>
+			<collection property="outGoing" ofType="OutGoing">
+				<id column="outGoing_address" property="outGoing_address" />
+				<id column="outGoing_start_time" property="outGoing_start_time" />
+				<id column="outGoing_stop_time" property="outGoing_stop_time" />
+			</collection>
+			<collection property="vacation" ofType="Vacation">
+				<id column="vacation_type_name" property="vacation_type_name" />
+				<id column="vacation_start_time" property="vacation_start_time" />
+				<id column="vacation_stop_time" property="vacation_stop_time" />
+			</collection>
+			<collection property="overtime" ofType="Overtime">
+				<id column="overtime_start_time" property="overtime_start_time" />
+				<id column="overtime_stop_time" property="overtime_stop_time" />
+			</collection>
+			<collection property="attendanceRecords" ofType="AttendanceRecord">
+				<id column="attendance_type" property="attendance_type" />
+				<id column="result_id" property="result_id" />
+				<id column="rule_name" property="rule_name" />
+				<id column="attendance_time" property="attendance_time" />
+				<id column="appeal_attendance" property="appeal_attendance" />
+				<id column="rule_time_work" property="rule_time_work" />
+				<id column="rule_time_off_work" property="rule_time_off_work" />
+				<id column="rule_rest_start" property="rule_rest_start" />
+				<id column="rule_rest_end" property="rule_rest_end" />
+			</collection>
+		</collection>
+	</resultMap>
+	
+	
+	<resultMap id="AppealAttendanceInfoMap" type="AppealAttendanceInfo">
+		<id column="id" property="id" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="result" property="result" />
+		<id column="result_id" property="result_id" />
+		<id column="appeal_time" property="appeal_time" />
+		<id column="type_name" property="type_name" />
+		<id column="attendance_time" property="attendance_time" />
+		<id column="attendance_type" property="attendance_type" />
+		<id column="appeal_attendance_id" property="appeal_attendance_id" />
+		<id column="appeal_attendance" property="appeal_attendance" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="effective" property="effective" />
+		<id column="appealAttendanceRecordAudit_id" property="appealAttendanceRecordAudit_id" />
+		<id column="appealAttendanceRecordAudit_user_id" property="appealAttendanceRecordAudit_user_id" />
+		<id column="appealAttendanceRecordAudit_user_name" property="appealAttendanceRecordAudit_user_name" />
+		<id column="size" property="size" />
+		<id column="audit_time" property="audit_time" />
+		<id column="audit_status" property="audit_status" />
+		<id column="rule_id" property="rule_id" />
+		<id column="rule_name" property="rule_name" />
+		<collection property="appealAttendanceRecordPic" ofType="AppealAttendanceRecordPic">
+			<id column="appealAttendanceRecordPic_id" property="appealAttendanceRecordPic_id" />
+			<id column="url" property="url" />
+			<id column="appeal_attendance_record_id" property="appeal_attendance_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="BusinessTraveIRecordMap" type="BusinessTraveIRecord">
+		<id column="id" property="id" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<id column="address" property="address" />
+		<id column="day" property="day" />
+		<collection property="businessTraveIRecordPic" ofType="BusinessTraveIRecordPic">
+			<id column="businessTraveIRecordPicId" property="businessTraveIRecordPicId" />
+			<id column="url" property="url" />
+			<id column="businessTraveI_record_id" property="businessTraveI_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="OutGoingRecordMap" type="OutGoingRecord">
+		<id column="id" property="id" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<id column="address" property="address" />
+		<collection property="outGoingRecordPic" ofType="OutGoingRecordPic">
+			<id column="outGoingRecordPicId" property="outGoingRecordPicId" />
+			<id column="url" property="url" />
+			<id column="outGoing_record_id" property="outGoing_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="OverTimeRecordMap" type="OverTimeRecord">
+		<id column="id" property="id" />
+		<id column="overTimeType_id" property="overTimeType_id" />
+		<id column="overTimeType" property="overTimeType" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="day" property="day" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<collection property="overTimeRecordPic" ofType="OverTimeRecordPic">
+			<id column="overTimeRecordPicid" property="overTimeRecordPicid" />
+			<id column="url" property="url" />
+			<id column="over_time_record_id" property="over_time_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="VacationRecordMap" type="VacationRecord">
+		<id column="id" property="id" />
+		<id column="vacation_type_id" property="vacation_type_id" />
+		<id column="vacation_type_name" property="vacation_type_name" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="day" property="day" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<collection property="vacationRecordPic" ofType="VacationRecordPic">
+			<id column="vacationRecordPicid" property="vacationRecordPicid" />
+			<id column="url" property="url" />
+			<id column="vacation_record_id" property="vacation_record_id" />
+		</collection>
+	</resultMap>
+
+	<!-- 添加用户 -->
+	<insert id="addUser">
+		IF EXISTS(select * from UserInfo where
+		phone_number =
+		#{userPhoneNumber}) select 2
+		else insert into UserInfo
+		(user_id,phone_number,user_pwd,gender_id,role,effective,time_register,ip_register)
+		values
+		((select case when max(user_id) is null then '10000001' else
+		max(user_id)+1 end from UserInfo),
+		#{userPhoneNumber},#{userPwd},3,0,1,convert(varchar(20),getdate(),120),#{ipAddress})
+	</insert>
+
+	<!-- 查找当前最大的user_id -->
+	<select id="getMaxUserId" resultType="Integer">
+		select MAX(user_id) from
+		UserInfo
+	</select>
+
+	<!-- 根据用户ID登录 -->
+	<select id="loginUserByUserId" resultType="User" >
+		SELECT
+		dbo.UserInfo.id,
+		dbo.UserInfo.user_id,
+		dbo.UserInfo.gender_id,
+		dbo.UserInfo.user_name,
+		dbo.UserInfo.phone_number,
+		dbo.UserInfo.mail_address,
+		dbo.UserInfo.contact_address,
+		dbo.UserInfo.emergency_contact_name,
+		dbo.UserInfo.emergency_contact_phone,
+		dbo.UserInfo.icon_url,
+		dbo.UserInfo.role,
+		dbo.UserInfo.company_id,
+		dbo.UserInfo.position_id,
+		dbo.UserInfo.department_id,
+		dbo.UserInfo.authority_id,
+		dbo.UserInfo.job_number,
+		dbo.UserInfo.effective,
+		dbo.UserInfo.time_register,
+		dbo.UserInfo.ip_register,
+		CONVERT(VARCHAR(10),dbo.UserInfo.entry_time,120) as entry_time,
+		dbo.Gender.gender,
+		companyInfo.company_name
+		
+
+		FROM
+		dbo.UserInfo
+		LEFT JOIN dbo.Gender on
+		dbo.Gender.gender_id = dbo.UserInfo.gender_id
+		left join companyInfo on UserInfo.company_id = companyInfo.id
+		WHERE
+		dbo.UserInfo.user_id
+		= #{userId} AND dbo.UserInfo.user_pwd = #{userPwd} and 
+		dbo.UserInfo.effective = 1
+	</select>
+
+	<!-- 根据用户电话、邮箱登录 -->
+	<select id="searchUserByOthers" resultType="User" >
+		SELECT
+		dbo.UserInfo.id,
+		dbo.UserInfo.user_id,
+		dbo.UserInfo.user_pwd,
+		dbo.UserInfo.gender_id,
+		dbo.UserInfo.user_name,
+		dbo.UserInfo.phone_number,
+		dbo.UserInfo.mail_address,
+		dbo.UserInfo.contact_address,
+		dbo.UserInfo.emergency_contact_name,
+		dbo.UserInfo.emergency_contact_phone,
+		dbo.UserInfo.icon_url,
+		dbo.UserInfo.role,
+		dbo.UserInfo.company_id,
+		dbo.UserInfo.position_id,
+		dbo.UserInfo.department_id,
+		dbo.UserInfo.authority_id,
+		dbo.UserInfo.job_number,
+		dbo.UserInfo.effective,
+		dbo.UserInfo.time_register,
+		dbo.UserInfo.ip_register,
+		CONVERT(VARCHAR(10),dbo.UserInfo.entry_time,120) as entry_time,
+		dbo.Gender.gender,
+		companyInfo.company_name
+
+		FROM
+		dbo.UserInfo
+		LEFT JOIN dbo.Gender on
+		dbo.Gender.gender_id = dbo.UserInfo.gender_id
+		left join companyInfo on UserInfo.company_id = companyInfo.id
+		WHERE
+		(dbo.UserInfo.phone_number = #{userId} OR
+		dbo.UserInfo.mail_address =
+		#{userId} ) AND
+		dbo.UserInfo.user_pwd = #{userPwd} AND
+		UserInfo.effective = 1
+	</select>
+
+	<!-- 根据条件查找用户 -->
+	<select id="searchUser" resultType="User">
+		SELECT
+		dbo.UserInfo.id,
+		dbo.UserInfo.user_id,
+		dbo.UserInfo.gender_id,
+		dbo.UserInfo.user_name,
+		dbo.UserInfo.phone_number,
+		dbo.UserInfo.mail_address,
+		dbo.UserInfo.contact_address,
+		dbo.UserInfo.emergency_contact_name,
+		dbo.UserInfo.emergency_contact_phone,
+		dbo.UserInfo.icon_url,
+		dbo.UserInfo.role,
+		dbo.UserInfo.company_id,
+		dbo.UserInfo.position_id,
+		dbo.UserInfo.department_id,
+		dbo.UserInfo.authority_id,
+		dbo.UserInfo.job_number,
+		dbo.UserInfo.effective,
+		dbo.UserInfo.time_register,
+		dbo.UserInfo.ip_register,
+		CONVERT(VARCHAR(10),dbo.UserInfo.entry_time,120) as entry_time,
+		dbo.Gender.gender,
+		companyInfo.company_name
+		
+
+		FROM
+		dbo.UserInfo
+		LEFT JOIN dbo.Gender on
+		dbo.Gender.gender_id = dbo.UserInfo.gender_id
+		left join companyInfo on UserInfo.company_id = companyInfo.id
+		WHERE
+		dbo.UserInfo.${key}
+		=
+		#{value} AND
+		UserInfo.effective = 1
+	</select>
+
+	<!-- 查询所有用户 -->
+	<select id="searchAllUser" resultType="AllUserInfo" resultMap="AllUserResultMap">
+		SELECT
+		dbo.Relationship.department_id,
+		dbo.Relationship.position_id,
+		users.user_id,
+		users.user_pwd,
+		users.gender_id,
+		users.user_name,
+		users.phone_number,
+		users.mail_address,
+		users.contact_address,
+		users.emergency_contact_name,
+		users.emergency_contact_phone,
+		users.icon_url,
+		users.role,
+		users.effective,
+		users.time_register,
+		users.ip_register,
+		dbo.Department.department,
+		dbo.Department.priority,
+		dbo.[Position].[position],
+		dbo.Gender.gender
+
+		FROM
+		dbo.UserInfo AS users
+		LEFT JOIN dbo.Relationship on
+		users.user_id=dbo.Relationship.user_id
+		LEFT JOIN dbo.Department
+		on dbo.Department.department_id =
+		dbo.Relationship.department_id
+		LEFT
+		JOIN dbo.Position on
+		dbo.Position.position_id =
+		dbo.Relationship.position_id
+		LEFT JOIN
+		dbo.Gender on
+		dbo.Gender.gender_id = users.gender_id
+		WHERE
+		dbo.Department.effective = 1 AND
+		users.effective = 1
+		ORDER BY
+		dbo.Department.priority ASC
+	</select>
+
+	<!-- 更新用户 -->
+	<update id="updateUser">
+		UPDATE UserInfo SET ${key} = #{value} where user_id =
+		#{userId}
+	</update>
+
+	<!-- 删除部门与职位 -->
+	<delete id="deleteRelationship">
+		DELETE FROM Relationship WHERE user_id = #{userId}
+	</delete>
+
+	<!-- 插入部门与职位 -->
+	<insert id="insertRelationship">
+		INSERT INTO Relationship
+		(user_id,department_id,position_id) VALUES
+		(#{userId},#{departmentId},#{positionId})
+	</insert>
+
+	<!-- 更新紧急联系人 -->
+	<update id="updateEmergencyContact">
+		UPDATE UserInfo SET emergency_contact_name =
+		#{emergencyUserName} , emergency_contact_phone = #{emergencyPhone}
+		where user_id = #{userId}
+	</update>
+
+	<!-- 查询部门 -->
+	<select id="searchDepartment" resultType="Department">
+		SELECT * FROM
+		Department WHERE
+		Department.effective = 1 and company_id =${companyId}
+		order by Department.priority
+	</select>
+
+	<!-- 查询职位 -->
+	<select id="searchPosition" resultType="Position">
+		select Position.* from Position left join Department on Position.department_id = Department.department_id where Department.company_id = ${companyId}
+	</select>
+
+	<!-- 查询用户状态 -->
+	<select id="searchUserStatus" resultType="Status" resultMap="StatusResultMap">
+		SELECT
+		dbo.UserStatus.user_id,
+		dbo.Department.department,
+		dbo.Department.priority,
+		dbo.UserStatus.user_name,
+		dbo.Office.office,
+		dbo.Status.status
+
+		FROM
+		dbo.Relationship ,
+		dbo.UserInfo AS realStatus ,
+		dbo.Department ,
+		dbo.UserStatus ,
+		dbo.Office ,
+		dbo.Status
+		WHERE
+		dbo.Relationship.user_id = realStatus.user_id AND
+		dbo.Department.department_id = dbo.Relationship.department_id AND
+		dbo.Department.effective = 1 AND
+		realStatus.effective = 1 AND
+		dbo.UserStatus.user_id = realStatus.user_id AND
+		dbo.Office.office_id =
+		dbo.UserStatus.office_id AND
+		dbo.Status.status_id =
+		dbo.UserStatus.status_id
+		ORDER BY
+		Department.priority ASC,
+		realStatus.user_id ASC
+	</select>
+
+	<!-- 查询考勤规则 管理员查询所有的，用户只查有效的 -->
+	<select id="searchAttendanceRules" resultType="AttendanceRule">
+		SELECT * FROM
+		AttendanceRule WHERE company_id = ${company_id} 
+		<if test="manager==0">
+		and	effective = 1
+		</if>
+		<if test="id!=0">
+		and	id = ${id}
+		</if>
+		ORDER BY effective DESC
+	</select>
+
+	<!-- 根据规则ID查询考勤规则 -->
+	<select id="searchAttendanceRuleByRuleId" resultType="AttendanceRule">
+		SELECT *
+		FROM AttendanceRule WHERE id = #{ruleId}
+	</select>
+
+	<!-- 删除考勤规则 -->
+	<delete id="deleteAttendanceRule">
+		DELETE FROM AttendanceRule WHERE id = #{ruleId}
+	</delete>
+
+	<!-- 添加考勤规则 -->
+	<insert id="addAttendanceRule" parameterType='AttendanceRule'>
+		INSERT INTO
+		AttendanceRule
+		(rule_name,rule_address,rule_longitude,rule_latitude,rule_radius,rule_time_work,rule_time_off_work,rule_manager_id,effective,rule_rest_start,rule_rest_end,company_id,
+		rule_type,unique_address)
+		VALUES
+		(#{attendanceRule.rule_name},#{attendanceRule.rule_address},#{attendanceRule.rule_longitude},#{attendanceRule.rule_latitude},
+		#{attendanceRule.rule_radius},#{attendanceRule.rule_time_work},#{attendanceRule.rule_time_off_work},#{attendanceRule.rule_manager_id},1,
+		#{attendanceRule.rule_rest_start},#{attendanceRule.rule_rest_end},#{attendanceRule.company_id},${attendanceRule.rule_type},#{attendanceRule.unique_address})
+	</insert>
+
+	<!-- 修改考勤规则 -->
+	<update id="modifyAttendanceRule" parameterType='AttendanceRule'>
+		UPDATE
+		AttendanceRule SET rule_name = #{attendanceRule.rule_name} ,
+		rule_address
+		= #{attendanceRule.rule_address} , rule_longitude =
+		#{attendanceRule.rule_longitude} , rule_latitude =
+		#{attendanceRule.rule_latitude}
+		, rule_radius =
+		#{attendanceRule.rule_radius} , rule_time_work =
+		#{attendanceRule.rule_time_work} , rule_time_off_work =
+		#{attendanceRule.rule_time_off_work}
+		, rule_manager_id =
+		#{attendanceRule.rule_manager_id} , effective =
+		#{attendanceRule.effective} ,
+		rule_rest_start = #{attendanceRule.rule_rest_start},
+		rule_rest_end = #{attendanceRule.rule_rest_end},
+		rule_type = ${attendanceRule.rule_type},
+		unique_address = #{attendanceRule.unique_address}
+		WHERE id = #{attendanceRule.id}
+	</update>
+
+	<!-- 添加考勤记录 -->
+	<insert id="addAttendanceRecord" parameterType='AttendanceRecord'>
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		INSERT INTO
+		AttendanceRecord
+		(user_id,attendance_type,attendance_longitude,attendance_latitude,attendance_address,attendance_time,out_attendance,out_attendance_id,rule_id,result_id,holidayStatus,readNotRead)
+		VALUES
+		(#{user_id},#{attendance_type},#{attendance_longitude},#{attendance_latitude},
+		#{attendance_address},#{attendance_time},#{out_attendance},#{out_attendance_id},
+		#{rule_id},#{result_id},#{holidayStatus},0)
+	</insert>
+	<!--新增补卡信息  -->
+	<insert id="addAppealAttendanceRecord" parameterType='AttendanceRecord'>
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		INSERT INTO
+		AttendanceRecord
+		(user_id,attendance_type,attendance_time,appeal_attendance,appeal_attendance_id,result_id,holidayStatus,readNotRead,rule_id)
+		VALUES
+		(#{user_id},#{attendance_type},#{attendance_time},#{appeal_attendance},
+		#{appeal_attendance_id},#{result_id},#{holidayStatus},0,#{rule_id})
+	</insert>
+
+	<!-- 查询考勤记录 -->
+	<select id="searchAttendanceRecord" resultType="AttendanceRecord">
+		select AttendanceRecord.*,userinfo.user_name,AttendanceResult.result from AttendanceRecord
+
+		left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+		
+		left join userinfo on AttendanceRecord.user_id = userinfo.user_id
+		
+		where AttendanceRecord.user_id = #{userId} and attendance_time BETWEEN #{startTime} AND
+		#{endTime} order by AttendanceRecord.attendance_time
+	
+	</select>
+
+	<!-- 查询考勤排行榜记录 -->
+	<select id="searchAttendanceTopRecord" resultType="AttendanceRecord">
+		SELECT TOP 10
+		AttendanceRecord.user_id,
+		AttendanceRecord.attendance_type,
+		AttendanceRecord.attendance_longitude,
+		AttendanceRecord.attendance_latitude,
+		AttendanceRecord.attendance_address,
+		AttendanceRecord.attendance_time,
+		AttendanceRecord.out_attendance,
+		AttendanceRecord.out_attendance_id,
+		AttendanceRecord.rule_id,
+		AttendanceRecord.result_id,
+		AttendanceResult.result,
+		UserInfo.user_name
+
+		FROM
+		AttendanceRecord ,
+		AttendanceResult ,
+		UserInfo
+		WHERE
+		AttendanceRecord.result_id =
+		AttendanceResult.id AND
+		attendance_type =
+		1 AND
+		UserInfo.user_id =
+		AttendanceRecord.user_id AND
+		attendance_time
+		BETWEEN
+		#{startTime} AND
+		#{endTime}
+		ORDER BY AttendanceRecord.attendance_time
+	</select>
+
+	<!-- 更新用户头像 -->
+	<update id="updateUserHeadPortraitInfo" parameterType="User">
+		update
+		UserInfo set icon_url = #{icon_url} where user_id = #{user_id}
+	</update>
+
+	<!-- 查询假期类型 管理员查询所有的，用户只查有效的 -->
+	<select id="searchVacationTypes" resultType="VacationType">
+		SELECT * FROM
+		VacationType WHERE effective >= CASE
+		WHEN #{manager}=1 THEN 0
+		ELSE 1
+		END
+	</select>
+
+	<!-- 查询加班类型 管理员查询所有的，用户只查有效的 -->
+	<select id="searchOvertimeTypes" resultType="OvertimeType">
+		SELECT * FROM
+		OvertimeType WHERE effective >= CASE
+		WHEN #{manager}=1 THEN 0
+		ELSE 1
+		END
+	</select>
+
+	<!-- 查询工资 -->
+	<select id="searchWageByUserId" resultType="Wage">
+		SELECT
+		Wage.id,
+		Wage.user_id,
+		Wage.month,
+		Wage.wage_basic,
+		Wage.attendance_days,
+		Wage.subsidy,
+		Wage.overtime_hours,
+		Wage.social_security_fund_persional,
+		Wage.social_security_fund_company,
+		Wage.individual_income_tax,
+		Wage.wage_real,
+		Wage.agent_distribution_boc,
+		Wage.agent_distribution_cmbc,
+		Wage.issuing_department_id,
+		Wage.time,
+		UserInfo.user_name,
+		Department.department
+
+		FROM
+		Wage ,
+		UserInfo ,
+		Department
+		WHERE Wage.user_id = #{userId} AND
+		Wage.month BETWEEN
+		#{startMonth} AND #{endMonth} AND
+		UserInfo.user_id = Wage.user_id AND
+		Department.department_id =
+		Wage.issuing_department_id
+		ORDER BY
+		Wage.time
+		DESC
+	</select>
+
+	<!-- 查询通知公告 -->
+	<select id="searchAnnouncement" resultType="Announcement">
+		declare @aaa int
+		select @aaa = count(*) from Announcement 
+		left join AnnouncementType on Announcement.type_id = AnnouncementType.type_id
+		left join Priority on Announcement.priority_id = Priority.priority_id
+		where Announcement.company_id = ${companyId} and Announcement.effectiveTime &gt; getDate()
+	
+		select top ${rows} *  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY effective desc,time desc ) AS rownumber,@aaa AS size ,
+		Announcement.id,Announcement.type_id,AnnouncementType.type,Announcement.title,Announcement.effectiveTime,
+		Announcement.url,Announcement.external_link,Announcement.author,Announcement.author_id,
+		Announcement.priority_id,Priority.priority,CONVERT(VARCHAR(19),Announcement.time,120) as time,
+		Announcement.effective,Announcement.company_id from Announcement 
+		left join AnnouncementType on Announcement.type_id = AnnouncementType.type_id
+		left join Priority on Announcement.priority_id = Priority.priority_id
+		where   Announcement.company_id = ${companyId} and Announcement.effectiveTime &gt; getDate())
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+
+<!-- 查询公司的信息根据公司ID -->
+	<select id="findCompanyList" resultType="Company">
+			SELECT
+			dbo.CompanyInfo.id,
+			dbo.CompanyInfo.company_name,
+			CONVERT(VARCHAR(19),dbo.CompanyInfo.createTime,120) as createTime,
+			dbo.CompanyInfo.effective,
+			dbo.CompanyInfo.deletePwd,
+			dbo.CompanyInfo.duty_paragraph,
+			dbo.CompanyInfo.address,
+			dbo.CompanyInfo.bank_name,
+			dbo.CompanyInfo.bank_account,
+			dbo.CompanyInfo.official_website,
+			dbo.CompanyInfo.fax,
+			dbo.CompanyInfo.mail,
+			dbo.CompanyInfo.bankCode,
+			dbo.CompanyInfo.card_type_name,
+			dbo.CompanyInfo.card_type,
+			dbo.CompanyInfo.landline_number
+			
+			FROM
+			dbo.CompanyInfo where 1=1 and effective =1
+			<if test="companyid!=0 ">
+			and	CompanyInfo.id = ${companyid}
+			</if>
+	</select>
+	<update id="updateUserDepartmentAndPosition">
+		update userInfo set department_id = #{departmentId},position_id = #{positionId} where user_id = ${userId}
+	</update>
+<!-- 	根据公司查询部门 -->
+	<select id = "findDepartmentByCompanyId" resultType="AllUserInfoAddressBook" resultMap="AllUserInfoAddressBookMap">
+		select Department.department_id as department_id_all,Department.department as department_all,Department.priority,userInfo.*
+		from Department
+		left join position on Department.department_id = position.department_id
+		left join PositionUser on PositionUser.position_id = position.position_id 
+		left join userInfo on userInfo.user_id = PositionUser.user_id
+		   where Department.company_id = ${companyId} and 
+		   Department.effective = 1 and 
+		   position.effective = 1 and
+		   PositionUser.effective = 1 and
+		   userInfo.effective = 1
+		   order by Department.priority
+	</select>
+	
+	
+<!-- 	根据公司查询账号 -->
+	<select id = "findUserInfoByCompanyId" resultType="User">
+		select * from UserInfo  where company_id = ${companyId} and effective = 1 
+	</select>
+	<!-- 查询手机号是否已经存在 -->
+	<select id="findUserByPhoneNumber" resultType="int">
+		select count(*) from UserInfo where user_Id !=#{userId} and phone_number =#{value}
+	</select>
+	
+	<!-- 查询邮箱是否已经存在 -->
+	<select id="findUserByEmailAddress" resultType="int">
+		select count(*) from UserInfo where user_Id !=#{userId} and mail_address =#{value}
+	</select>
+	<!-- 重置密码 -->
+	<update id="updateUserPassword">
+		if  exists(SELECT * FROM UserInfo WHERE phone_number=#{phoneNumber})
+		 	update UserInfo set user_pwd = #{password}  where phone_number=#{phoneNumber}
+		ELSE 
+			select 2
+	</update>
+	
+	<!-- 修改密码 -->
+	<update id="updatePassword" >
+		if  exists(SELECT * FROM UserInfo WHERE user_id=#{userId} and user_pwd = #{oldpassword})
+		 	update UserInfo set user_pwd = #{newpassword}  where  user_id=#{userId}
+		ELSE 
+			select 2
+	</update>
+	<!-- 查询广告 -->
+	<select id="findAdvertisementList" resultType="Advertisement">
+		select * from Advertisement where  effective = 1 and #{time} BETWEEN start_time and end_time order by force desc
+	</select>
+	<!--新增外勤详情记录  -->
+	<insert id="insertOutAttendanceRecord" parameterType="OutAttendanceRecord">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into OutAttendanceRecord (remarks,status,effective) values (#{remarks},${status},1)
+	</insert>
+	<!--新增补卡详情记录  -->
+	<insert id="insertAppealAttendanceRecord" parameterType="AppealAttendanceRecord">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into AppealAttendanceRecord (remarks,status,effective,appeal_time) values (#{remarks},${status},1,getDate())
+	</insert>
+	
+	<!--新增外勤审批人  -->
+	<insert id="insertOutAttendanceRecordAudit" parameterType="OutAttendanceRecordAudit">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into OutAttendanceRecordAudit (out_Attendance_Record_Id,user_id,father_audit_id,audit_status) values (#{out_Attendance_Record_Id},${user_id},
+		${father_audit_id},${audit_status})
+	</insert>
+	
+	<!--新增补卡审批人  -->
+	<insert id="insertAppealAttendanceRecordAudit" parameterType="AppealAttendanceRecordAudit">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into AppealAttendanceRecordAudit (appeal_attendance_id,user_id,father_audit_id,audit_status) values (#{appeal_attendance_id},${user_id},
+		${father_audit_id},${audit_status})
+	</insert>
+	
+	<!--批量新增抄送人 -->
+	<insert id="insertOutAttendanceRecordCopy" parameterType="java.util.List">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into OutAttendanceRecordCopy (user_id,out_Attendance_Record_Id) values (${item.user_id},${item.out_Attendance_Record_Id})
+		</foreach>
+	</insert>
+	<!--查询用户是否存在  -->
+	<select id="findUserInfoByUserId" resultType="int">
+		select count(*) from userInfo where user_id = ${userId}
+	</select>
+	<!--查询用户账号密码是否存在  -->
+	<select id="findUserInfoByUserIdAndPassWord" resultType="int">
+		select count(*) from userInfo where user_id = ${userId} and user_pwd = #{oldpassword}
+	</select>
+	<!--存储外勤打卡图片  -->
+	<insert id="OutAttendanceRecordPic">
+		insert into OutAttendanceRecordPic (url,out_Attendance_Record_Id) values (#{fileDirPath},${out_attendance_id})
+	</insert>
+	<!--根据安卓提供的日期查询工作表  -->
+	<select id="searchHolidayRecord" resultType="WorkingTime">
+		select * from workingTime where date between #{bt} and #{et} and company_id = ${company_id} order by date
+	</select>
+	<!--查询是否假期  -->
+	<select id="searchHoliday" resultType="int">
+		select status from WorkingTime where date = #{date} and company_id = ${companyId}
+	</select>
+	
+	<!--查询公司ID -->
+	<select id="getCompangIdByUserId" resultType="int">
+		select company_id from userInfo where user_id = #{user_id} and effective = 1
+	</select>
+	
+	<insert id="insertJPushData" parameterType="JPushData">
+		insert into JPushData (pusher,receiver,dataType,content,resultCode,resultContent,pushTime) values (#{pusher},#{receiver},#{dataType},#{content},#{resultCode},#{resultContent},getDate())
+	</insert>
+	
+	
+	<resultMap id="OutAttendanceInfoMap" type="OutAttendanceInfo">
+		<id column="id" property="id" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="result" property="result" />
+		<id column="result_id" property="result_id" />
+		<id column="attendance_longitude" property="attendance_longitude" />
+		<id column="attendance_latitude" property="attendance_latitude" />
+		<id column="attendance_address" property="attendance_address" />
+		<id column="attendance_time" property="attendance_time" />
+		<id column="type_name" property="type_name" />
+		<id column="out_attendance_id" property="out_attendance_id" />
+		<id column="remarks" property="remarks" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="effective" property="effective" />
+		<id column="outAttendanceRecordAudit_id" property="outAttendanceRecordAudit_id" />
+		<id column="outAttendanceRecordAudit_user_id" property="outAttendanceRecordAudit_user_id" />
+		<id column="outAttendanceRecordAudit_user_name" property="outAttendanceRecordAudit_user_name" />
+		<id column="size" property="size" />
+		<id column="audit_time" property="audit_time" />
+		<id column="audit_status" property="audit_status" />
+		<collection property="outAttendanceRecordPic" ofType="OutAttendanceRecordPic">
+			<id column="outAttendanceRecordPic_id" property="outAttendanceRecordPic_id" />
+			<id column="url" property="url" />
+			<id column="out_attendance_record_id" property="out_attendance_record_id" />
+		</collection>
+	</resultMap>
+	<!--查询外勤打卡需要审批的信息  -->
+	<select id="findOutAttendance" resultType="OutAttendanceInfo" resultMap="OutAttendanceInfoMap">
+		declare @aaa int
+		select @aaa = count(*) from OutAttendanceRecordAudit
+			left join OutAttendanceRecord on OutAttendanceRecordAudit.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on OutAttendanceRecordAudit.user_id  = c.user_id
+			where OutAttendanceRecordAudit.user_id = ${user_id} and OutAttendanceRecordAudit.audit_status = 1 
+			and 	AttendanceRecord.attendance_time BETWEEN #{bt} and #{et} and OutAttendanceRecord.effective = 1
+			<if test="applicant_user_id!=null and applicant_user_id!=''">
+				and	userinfo.user_name like '%${applicant_user_id}%'
+			</if>
+		
+		select @aaa AS size ,
+			AttendanceRecord.result_id,
+			AttendanceRecord.id,AttendanceRecord.user_id,AttendanceRecord.attendance_longitude,AttendanceRecord.attendance_latitude,AttendanceRecord.attendance_address,
+			convert(varchar(19),AttendanceRecord.attendance_time,120) AS attendance_time,convert(varchar(19),ff.audit_time,120) AS audit_time,
+			ff.audit_status,  OutAttendanceRecord.remarks,OutAttendanceRecord.status,AttendanceResult.result,AttendanceType.type_name,userinfo.user_name,
+			OutAttendanceRecord.id as out_attendance_id,ff.audit_remarks as audit_remarks,ff.id as outAttendanceRecordAudit_id,
+			ff.user_id as outAttendanceRecordAudit_user_id,c.user_name as outAttendanceRecordAudit_user_name,
+			OutAttendanceRecord.effective,
+			OutAttendanceRecordPic.id as outAttendanceRecordPic_id,OutAttendanceRecordPic.url,OutAttendanceRecordPic.out_Attendance_Record_Id
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  OutAttendanceRecordAudit.id desc )
+			 AS rownumber,* from OutAttendanceRecordAudit where OutAttendanceRecordAudit.user_id = ${user_id} and  OutAttendanceRecordAudit.audit_status = 1 )
+		dd where dd.rownumber > ${bNum})  ff
+			left join OutAttendanceRecord on ff.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join OutAttendanceRecordPic on OutAttendanceRecordPic.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where AttendanceRecord.attendance_time BETWEEN #{bt} and #{et}  and OutAttendanceRecord.effective = 1
+			<if test="applicant_user_id!=null and applicant_user_id!=''">
+				and	userinfo.user_name like '%${applicant_user_id}%'
+			</if>
+			order by AttendanceRecord.attendance_time desc
+	</select>
+	
+	<!-- 外勤打卡审批的相关人审批记录 -->
+	<select id="findOutAttendanceInfoAuditRecord" resultType="OutAttendanceInfoAuditRecord">
+		select audit_status,audit_remarks,user_name,convert(varchar(19),audit_time,120) as audit_time,OutAttendanceRecordAudit.user_id from OutAttendanceRecordAudit
+			left join UserInfo on OutAttendanceRecordAudit.user_id = UserInfo.user_id
+			where out_Attendance_Record_Id = ${out_attendance_id} 
+	</select>
+	
+	<!--审批记录的查询   -->
+	<select id="findauditOutAttendance_historical_records" resultType="OutAttendanceInfo" resultMap="OutAttendanceInfoMap">
+		declare @aaa int
+		select @aaa = count(*) from OutAttendanceRecordAudit
+			left join OutAttendanceRecord on OutAttendanceRecordAudit.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on OutAttendanceRecordAudit.user_id  = c.user_id
+			where OutAttendanceRecordAudit.user_id = ${user_id} and (OutAttendanceRecordAudit.audit_status =2 or OutAttendanceRecordAudit.audit_status = 3)
+			and 	AttendanceRecord.attendance_time BETWEEN #{bt} and #{et} and OutAttendanceRecord.effective = 1
+			<if test="applicant_user_id!=null and applicant_user_id!=''">
+				and	userinfo.user_name like '%${applicant_user_id}%'
+			</if>
+		
+		select @aaa AS size ,
+			AttendanceRecord.result_id,
+			AttendanceRecord.id,AttendanceRecord.user_id,AttendanceRecord.attendance_longitude,AttendanceRecord.attendance_latitude,AttendanceRecord.attendance_address,
+			convert(varchar(19),AttendanceRecord.attendance_time,120) AS attendance_time,convert(varchar(19),ff.audit_time,120) AS audit_time,
+			ff.audit_status,  OutAttendanceRecord.remarks,OutAttendanceRecord.status,AttendanceResult.result,AttendanceType.type_name,userinfo.user_name,
+			OutAttendanceRecord.id as out_attendance_id,ff.audit_remarks as audit_remarks,ff.id as outAttendanceRecordAudit_id,
+			ff.user_id as outAttendanceRecordAudit_user_id,c.user_name as outAttendanceRecordAudit_user_name,
+			OutAttendanceRecord.effective,
+			OutAttendanceRecordPic.id as outAttendanceRecordPic_id,OutAttendanceRecordPic.url,OutAttendanceRecordPic.out_Attendance_Record_Id
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  OutAttendanceRecordAudit.id desc )
+			 AS rownumber,* from OutAttendanceRecordAudit where OutAttendanceRecordAudit.user_id = ${user_id} 
+				and (OutAttendanceRecordAudit.audit_status =2 or OutAttendanceRecordAudit.audit_status = 3) )
+		dd where dd.rownumber > ${bNum})  ff
+			left join OutAttendanceRecord on ff.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join OutAttendanceRecordPic on OutAttendanceRecordPic.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where AttendanceRecord.attendance_time BETWEEN #{bt} and #{et} and OutAttendanceRecord.effective = 1
+			<if test="applicant_user_id!=null and applicant_user_id!=''">
+				and	userinfo.user_name like '%${applicant_user_id}%'
+			</if>
+			order by AttendanceRecord.attendance_time desc
+	</select>
+	
+	
+	<!--审批记录的查询   -->
+	<select id="searchApprovalAttendanceRecord" resultType="OutAttendanceInfo" resultMap="OutAttendanceInfoMap">
+		declare @aaa int
+		select @aaa = count(*) from AttendanceRecord
+			LEFT JOIN OutAttendanceRecord ON AttendanceRecord.out_attendance_id = OutAttendanceRecord.id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			where AttendanceRecord.user_id = ${user_id} and  out_attendance = 1 
+			and 	AttendanceRecord.attendance_time BETWEEN #{bt} and #{et} 
+			
+		
+		select @aaa AS size ,
+			ff.id,
+			ff.user_id,
+			ff.attendance_type,
+			dbo.AttendanceType.type_name,
+			ff.attendance_longitude,
+			ff.attendance_latitude,
+			ff.attendance_address,
+			convert(varchar(19),ff.attendance_time,120) AS attendance_time,
+			ff.out_attendance,
+			ff.result_id,
+			OutAttendanceRecord.effective,
+			ff.out_attendance_id,
+			ff.rule_id,OutAttendanceRecord.remarks,
+			AttendanceResult.result,
+			OutAttendanceRecordPic.id as outAttendanceRecordPic_id,
+			OutAttendanceRecordPic.url,
+			OutAttendanceRecordPic.out_Attendance_Record_Id,
+			userinfo.user_name
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  AttendanceRecord.attendance_time desc )
+			 AS rownumber,* from AttendanceRecord where AttendanceRecord.user_id = ${user_id} 
+				 and  out_attendance = 1 and AttendanceRecord.attendance_time BETWEEN #{bt} and #{et}  )
+		dd where dd.rownumber > ${bNum})  ff
+			LEFT JOIN OutAttendanceRecord ON ff.out_attendance_id = OutAttendanceRecord.id
+			left join OutAttendanceRecordPic on OutAttendanceRecordPic.out_Attendance_Record_Id = OutAttendanceRecord.id 
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = ff.attendance_type
+			left join userinfo on ff.user_id  = userinfo.user_id
+			ORDER BY OutAttendanceRecord.effective desc
+	</select>
+	<!-- 新增补卡的图片 -->
+	<insert id="AppealAttendanceRecordPic">
+		insert into AppealAttendanceRecordPic (url,appeal_attendance_record_id) values (#{fileDirPath},#{appeal_attendance_id})
+	</insert>
+	<!-- 撤销外勤打卡记录 -->
+	<update id="submitRevokeOutAttendance">
+		update OutAttendanceRecord set effective = 0 where id = ${id}
+	</update>
+	
+	<!-- 撤销补卡记录 -->
+	<update id="submitRevokeAppealAttendance">
+		update AppealAttendanceRecord set effective = 0 where id = ${id}
+	</update>
+	<!--新增加班申请记录  -->
+	<insert id="insertOverTimeRecord" parameterType="OverTimeRecord">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into OverTimeRecord (overTimeType_id,start_time,stop_time,day,hour,remarks,effective,createTime,
+		readNotRead,user_id,result_id,status) values (${overTimeType_id},#{start_time},
+		#{stop_time},${day},${hour},#{remarks},1,getDate(),1,
+		${user_id},${result_id},0)
+	</insert>
+	<!--新增外出申请记录  -->
+	<insert id="insertOutGoingRecord" parameterType="OutGoingRecord">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into OutGoingRecord (start_time,stop_time,hour,remarks,effective,createTime,
+		readNotRead,user_id,result_id,status,address) values (#{start_time},
+		#{stop_time},${hour},#{remarks},1,getDate(),1,
+		${user_id},${result_id},0,#{address})
+	</insert>
+	<!--新增出差申请记录  -->
+	<insert id="insertBusinessTraveIRecord" parameterType="BusinessTraveIRecord">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into BusinessTraveIRecord (start_time,stop_time,day,hour,remarks,effective,createTime,
+		readNotRead,user_id,result_id,status,address) values (#{start_time},
+		#{stop_time},${day},${hour},#{remarks},1,getDate(),1,
+		${user_id},${result_id},0,#{address})
+	</insert>
+	
+	<!--新增假期申请记录  -->
+	<insert id="insertVacationRecord" parameterType="VacationRecord">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into VacationRecord (vacation_type_id,start_time,stop_time,day,hour,remarks,effective,createTime,
+		readNotRead,user_id,result_id,status) values (${vacation_type_id},#{start_time},
+		#{stop_time},${day},${hour},#{remarks},1,getDate(),1,
+		${user_id},${result_id},0)
+	</insert>
+	<!--新增加班审批人信息  -->
+	<insert id="insertOverTimeRecordAudit" parameterType="OverTimeRecordAudit">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into OverTimeRecordAudit (over_time_record_id,user_id,father_audit_id,audit_status) 
+		values (${over_time_record_id},${user_id},${father_audit_id},
+		${audit_status})
+	</insert>
+	
+	<!--新增外出审批人信息  -->
+	<insert id="insertOutGoingRecordAudit" parameterType="OutGoingRecordAudit">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into OutGoingRecordAudit (outGoing_record_id,user_id,father_audit_id,audit_status) 
+		values (${outGoing_record_id},${user_id},${father_audit_id},
+		${audit_status})
+	</insert>
+	<!--新增出差审批人信息  -->
+	<insert id="insertBusinessTraveIRecordAudit" parameterType="BusinessTraveIRecordAudit">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into BusinessTraveIRecordAudit (businessTraveI_record_id,user_id,father_audit_id,audit_status) 
+		values (${businessTraveI_record_id},${user_id},${father_audit_id},
+		${audit_status})
+	</insert>
+	
+	<!--新增假期审批人信息  -->
+	<insert id="insertVacationRecordAudit" parameterType="VacationRecordAudit">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into VacationRecordAudit (vacation_record_id,user_id,father_audit_id,audit_status) 
+		values (${vacation_record_id},${user_id},${father_audit_id},
+		${audit_status})
+	</insert>
+	
+	<!--批量新增加班抄送人 -->
+	<insert id="insertOverTimeRecordCopy" parameterType="java.util.List">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into OverTimeRecordCopy (user_id,over_time_record_id) values (${item.user_id},${item.over_time_record_id})
+		</foreach>
+	</insert>
+	
+	<!--批量新增外出抄送人 -->
+	<insert id="insertOutGoingRecordCopy" parameterType="java.util.List">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into OutGoingRecordCopy (user_id,outGoing_record_id) values (${item.user_id},${item.outGoing_record_id})
+		</foreach>
+	</insert>
+	
+	<!--批量新增出差抄送人 -->
+	<insert id="insertBusinessTraveIRecordCopy" parameterType="java.util.List">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into BusinessTraveIRecordCopy (user_id,businessTraveI_record_id) values (${item.user_id},${item.businessTraveI_record_id})
+		</foreach>
+	</insert>
+	<!--批量新增假期抄送人 -->
+	<insert id="insertVacationRecordCopy" parameterType="java.util.List">
+		SET NOCOUNT ON
+		<foreach collection="list" item="item"  open=""
+			close="" separator=";">
+			insert into VacationRecordCopy (user_id,vacation_record_id) values (${item.user_id},${item.vacation_record_id})
+		</foreach>
+	</insert>
+	
+	<!-- 新增 加班申请的图片--> 
+	<insert id="OverTimeRecordPic" >
+		insert into OverTimeRecordPic (url,over_time_record_id) values (#{fileDirPath},${id})
+	</insert>
+	
+	<!-- 新增出差申请的图片--> 
+	<insert id="BusinessTraveIRecordPic" >
+		insert into BusinessTraveIRecordPic (url,businessTraveI_record_id) values (#{fileDirPath},${id})
+	</insert>
+	<!-- 新增外出申请的图片--> 
+	<insert id="OutGoingRecordPic" >
+		insert into OutGoingRecordPic (url,outGoing_record_id) values (#{fileDirPath},${id})
+	</insert>
+	
+	<!-- 新增假期申请的图片--> 
+	<insert id="VacationRecordPic" >
+		insert into VacationRecordPic (url,vacation_record_id) values (#{fileDirPath},${id})
+	</insert>
+	<!--撤销加班申请  -->
+	<update id="submitRevokeOverTime">
+		update OverTimeRecord set effective = 0 where id = ${id}
+	</update>
+	
+	<!--撤销外出申请  -->
+	<update id="submitRevokeOutGoing">
+		update OutGoingRecord set effective = 0 where id = ${id}
+	</update>
+	
+	<!--撤销出差申请  -->
+	<update id="submitRevokeBusinessTraveI">
+		update BusinessTraveIRecord set effective = 0 where id = ${id}
+	</update>
+	<!--撤销假期申请  -->
+	<update id="submitRevokeVacation">
+		update VacationRecord set effective = 0 where id = ${id}
+	</update>
+	
+	<select id="findUserBaseOvertime" resultType="float">
+		select over_time from userBase where  user_id = ${userId} and company_id = ${company_id}
+	</select>
+	<select id="searchWorkingTimeUser" resultType="WorkingTimeUser">
+		select WorkingTimeUser.*,userInfo.user_name ,WorkingTime.status
+		from WorkingTimeUser 
+		left join userInfo on userInfo.user_id = WorkingTimeUser.user_id
+		LEFT JOIN WorkingTime on WorkingTimeUser.date = WorkingTime.date AND WorkingTimeUser.company_id = WorkingTime.company_id
+		 where WorkingTime.date BETWEEN #{startTime} and #{endTime} and  WorkingTimeUser.company_id = ${companyId} and WorkingTimeUser.user_id = ${userId} order by date
+	</select>
+	<select id="findPositionUser" resultType="User">
+	select userInfo.* from 
+	PositionUser 
+	left join position on PositionUser.position_id = position.position_id 
+	left join userInfo on userInfo.user_id = PositionUser.user_id
+	where position.department_id  = ${departmentId} 
+	and PositionUser.effective = 1 
+	and position.effective = 1 
+	and userInfo.effective = 1 
+	order by position.priority,PositionUser.priority
+	</select>
+	<!--查询外勤详情记录（审批）   -->
+	<select id="serachOutAttendanceById" resultType="OutAttendanceInfo" resultMap="OutAttendanceInfoMap">
+		select 
+			AttendanceRecord.result_id,
+			AttendanceRecord.id,AttendanceRecord.user_id,AttendanceRecord.attendance_longitude,AttendanceRecord.attendance_latitude,AttendanceRecord.attendance_address,
+			convert(varchar(19),AttendanceRecord.attendance_time,120) AS attendance_time,convert(varchar(19),ff.audit_time,120) AS audit_time,
+			ff.audit_status,  OutAttendanceRecord.remarks,OutAttendanceRecord.status,AttendanceResult.result,AttendanceType.type_name,userinfo.user_name,
+			OutAttendanceRecord.id as out_attendance_id,ff.audit_remarks as audit_remarks,ff.id as outAttendanceRecordAudit_id,
+			ff.user_id as outAttendanceRecordAudit_user_id,c.user_name as outAttendanceRecordAudit_user_name,
+			OutAttendanceRecord.effective,
+			OutAttendanceRecordPic.id as outAttendanceRecordPic_id,OutAttendanceRecordPic.url,OutAttendanceRecordPic.out_Attendance_Record_Id
+			from 
+			(select * from OutAttendanceRecordAudit where   OutAttendanceRecordAudit.user_id = ${user_id} ) ff
+			left join OutAttendanceRecord on ff.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join OutAttendanceRecordPic on OutAttendanceRecordPic.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where AttendanceRecord.id = ${id}   and OutAttendanceRecord.effective = 1
+	</select>
+	
+	<!--查询外勤详情记录（申请）   -->
+	<select id="serachOutAttendanceByIdApproval" resultType="OutAttendanceInfo" resultMap="OutAttendanceInfoMap">
+		select 
+			ff.id,
+			ff.user_id,
+			ff.attendance_type,
+			dbo.AttendanceType.type_name,
+			ff.attendance_longitude,
+			ff.attendance_latitude,
+			ff.attendance_address,
+			convert(varchar(19),ff.attendance_time,120) AS attendance_time,
+			ff.out_attendance,
+			ff.result_id,
+			OutAttendanceRecord.effective,
+			ff.out_attendance_id,
+			ff.rule_id,OutAttendanceRecord.remarks,
+			AttendanceResult.result,
+			OutAttendanceRecordPic.id as outAttendanceRecordPic_id,
+			OutAttendanceRecordPic.url,
+			OutAttendanceRecordPic.out_Attendance_Record_Id,
+			userinfo.user_name
+			from 
+			(select * from AttendanceRecord where AttendanceRecord.id = ${id} )  ff
+			LEFT JOIN OutAttendanceRecord ON ff.out_attendance_id = OutAttendanceRecord.id
+			left join OutAttendanceRecordPic on OutAttendanceRecordPic.out_Attendance_Record_Id = OutAttendanceRecord.id 
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = ff.attendance_type
+			left join userinfo on ff.user_id  = userinfo.user_id
+	</select>
+	<!--查询假期详情记录(审批) -->
+	<select id="serachVacationById" resultType="VacationRecord" resultMap="VacationRecordMap">
+		select 
+			dbo.VacationRecord.id,
+			dbo.VacationRecord.vacation_type_id,
+			CONVERT(VARCHAR(19),dbo.VacationRecord.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),dbo.VacationRecord.stop_time,120) as stop_time,
+			dbo.VacationRecord.[day],
+			dbo.VacationRecord.[hour],
+			dbo.VacationRecord.remarks,
+			dbo.VacationRecord.effective,
+			CONVERT(VARCHAR(19),dbo.VacationRecord.createTime,120) as createTime,
+			dbo.VacationRecord.readNotRead,
+			dbo.VacationRecord.user_id,
+			dbo.VacationRecord.result_id,
+			VacationType.vacation_type_name,VacationRecordPic.url,VacationRecordPic.id as vacationRecordPicid,
+			VacationRecordPic.vacation_record_id,userinfo.user_name,AttendanceResult.result,ff.id as audit_id,ff.audit_status
+			from 
+			(select * from VacationRecordAudit where
+			 VacationRecordAudit.user_id = ${user_id}) ff
+			left join VacationRecord on ff.vacation_record_id = VacationRecord.id
+			left join VacationType on VacationType.vacation_type_id = VacationRecord.vacation_type_id
+			left join AttendanceResult on VacationRecord.result_id = AttendanceResult.id
+			left join VacationRecordPic on VacationRecordPic.vacation_record_id = VacationRecord.id
+			left join userinfo on VacationRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where VacationRecord.id=${id}  and VacationRecord.effective = 1
+			
+	</select>
+	<!--查询假期详情记录（申请） -->
+	<select id="serachVacationByIdApproval" resultType="VacationRecord" resultMap="VacationRecordMap">
+		select 
+			ff.id,
+			ff.vacation_type_id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.[day],
+			ff.[hour],
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			VacationType.vacation_type_name,VacationRecordPic.url,VacationRecordPic.id as vacationRecordPicid,
+				VacationRecordPic.vacation_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select * from VacationRecord where VacationRecord.id = ${id} 
+			 ) ff
+			left join VacationType on VacationType.vacation_type_id =  ff.vacation_type_id
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join VacationRecordPic on VacationRecordPic.vacation_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+	</select>
+	<!--查询加班详情记录 -->
+	<select id="serachOvertimeById" resultType="OverTimeRecord" resultMap="OverTimeRecordMap">
+		select
+			dbo.OverTimeRecord.id,
+			dbo.OverTimeRecord.overTimeType_id,
+			CONVERT(VARCHAR(19),dbo.OverTimeRecord.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),dbo.OverTimeRecord.stop_time,120) as stop_time,
+			dbo.OverTimeRecord.[day],
+			dbo.OverTimeRecord.[hour],
+			dbo.OverTimeRecord.remarks,
+			dbo.OverTimeRecord.effective,
+			CONVERT(VARCHAR(19),dbo.OverTimeRecord.createTime,120) as createTime,
+			dbo.OverTimeRecord.readNotRead,
+			dbo.OverTimeRecord.user_id,
+			dbo.OverTimeRecord.result_id,
+			OvertimeType.overtime_type_name as overTimeType,OverTimeRecordPic.url,OverTimeRecordPic.id as overTimeRecordPicid,
+			OverTimeRecordPic.over_time_record_id,userinfo.user_name,AttendanceResult.result,ff.id as audit_id,ff.audit_status
+			from 
+			(select * from OverTimeRecordAudit where 
+			 OverTimeRecordAudit.user_id = ${user_id} )ff
+			left join OverTimeRecord on ff.over_time_record_id = OverTimeRecord.id
+			left join OvertimeType on OvertimeType.overtime_type_id = OverTimeRecord.overTimeType_id
+			left join AttendanceResult on OverTimeRecord.result_id = AttendanceResult.id
+			left join OverTimeRecordPic on OverTimeRecordPic.over_time_record_id = OverTimeRecord.id
+			left join userinfo on OverTimeRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where OverTimeRecord.id = ${id}  and OverTimeRecord.effective = 1
+			
+	</select>
+	
+	<!--查询加班详情记录 -->
+	<select id="serachOvertimeByIdApproval" resultType="OverTimeRecord" resultMap="OverTimeRecordMap">
+		select 
+			ff.id,
+			ff.overTimeType_id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.day,
+			ff.hour,
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			OvertimeType.overtime_type_name as overTimeType,OverTimeRecordPic.url,OverTimeRecordPic.id as overTimeRecordPicid,
+			OverTimeRecordPic.over_time_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select* from OverTimeRecord where OverTimeRecord.id = ${id}  )   ff
+			left join OvertimeType on OvertimeType.overtime_type_id =  ff.overTimeType_id
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join OverTimeRecordPic on OverTimeRecordPic.over_time_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+			
+	</select>
+	<!--查询外出详情记录 -->
+	<select id="serachOutGoingById" resultType="OutGoingRecord" resultMap="OutGoingRecordMap">
+		select 
+			dbo.OutGoingRecord.id,
+			CONVERT(VARCHAR(19),dbo.OutGoingRecord.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),dbo.OutGoingRecord.stop_time,120) as stop_time,
+			dbo.OutGoingRecord.[hour],
+			dbo.OutGoingRecord.address,
+			dbo.OutGoingRecord.remarks,
+			dbo.OutGoingRecord.effective,
+			CONVERT(VARCHAR(19),dbo.OutGoingRecord.createTime,120) as createTime,
+			dbo.OutGoingRecord.readNotRead,
+			dbo.OutGoingRecord.user_id,
+			dbo.OutGoingRecord.result_id,
+			OutGoingRecordPic.url,OutGoingRecordPic.id as outGoingRecordPicid,
+			OutGoingRecordPic.outGoing_record_id,userinfo.user_name,AttendanceResult.result,
+			ff.id as audit_id,ff.audit_status
+			from 
+			(select * from OutGoingRecordAudit where 
+			 OutGoingRecordAudit.user_id = ${user_id} ) ff
+			left join OutGoingRecord on ff.outGoing_record_id = OutGoingRecord.id
+			left join AttendanceResult on OutGoingRecord.result_id = AttendanceResult.id
+			left join OutGoingRecordPic on OutGoingRecordPic.outGoing_record_id = OutGoingRecord.id
+			left join userinfo on OutGoingRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where OutGoingRecord.id = ${id}  and OutGoingRecord.effective = 1
+	</select>
+	
+	<!--查询外出详情记录 -->
+	<select id="serachOutGoingByIdApproval" resultType="OutGoingRecord" resultMap="OutGoingRecordMap">
+		select 
+			ff.id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.[hour],
+			ff.address,
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			OutGoingRecordPic.url,OutGoingRecordPic.id as outGoingRecordPicid,
+				OutGoingRecordPic.outGoing_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select * from OutGoingRecord where OutGoingRecord.id = ${id} ) ff
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join OutGoingRecordPic on OutGoingRecordPic.outGoing_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+	</select>
+	<!--查询出差详情记录 -->
+	<select id="serachBusinessTraveIById" resultType="BusinessTraveIRecord" resultMap="BusinessTraveIRecordMap">
+		select
+			dbo.BusinessTraveIRecord.id,
+			CONVERT(VARCHAR(19),dbo.BusinessTraveIRecord.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),dbo.BusinessTraveIRecord.stop_time,120) as stop_time,
+			dbo.BusinessTraveIRecord.[hour],
+			dbo.BusinessTraveIRecord.[day],
+			dbo.BusinessTraveIRecord.address,
+			dbo.BusinessTraveIRecord.remarks,
+			dbo.BusinessTraveIRecord.effective,
+			CONVERT(VARCHAR(19),dbo.BusinessTraveIRecord.createTime,120) as createTime,
+			dbo.BusinessTraveIRecord.readNotRead,
+			dbo.BusinessTraveIRecord.user_id,
+			dbo.BusinessTraveIRecord.result_id,
+			BusinessTraveIRecordPic.url,BusinessTraveIRecordPic.id as businessTraveIRecordPicid,
+			BusinessTraveIRecordPic.businessTraveI_record_id,userinfo.user_name,AttendanceResult.result,
+			ff.id as audit_id,ff.audit_status
+			from 
+			(select * from BusinessTraveIRecordAudit where BusinessTraveIRecordAudit.user_id = ${user_id} ) ff
+			left join BusinessTraveIRecord on ff.businessTraveI_record_id = BusinessTraveIRecord.id
+			left join AttendanceResult on BusinessTraveIRecord.result_id = AttendanceResult.id
+			left join BusinessTraveIRecordPic on BusinessTraveIRecordPic.businessTraveI_record_id = BusinessTraveIRecord.id
+			left join userinfo on BusinessTraveIRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where BusinessTraveIRecord.id = ${id}   and BusinessTraveIRecord.effective = 1
+			
+	</select>
+	
+	<!--查询出差详情记录 -->
+	<select id="serachBusinessTraveIByIdApproval" resultType="BusinessTraveIRecord" resultMap="BusinessTraveIRecordMap">
+		select 
+			ff.id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.[day],
+			ff.[hour],
+			ff.address,
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			BusinessTraveIRecordPic.url,BusinessTraveIRecordPic.id as businessTraveIRecordPicid,
+				BusinessTraveIRecordPic.businessTraveI_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select  * from BusinessTraveIRecord where BusinessTraveIRecord.id = ${id} 
+			 )  ff
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join BusinessTraveIRecordPic on BusinessTraveIRecordPic.businessTraveI_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+			
+	</select>
+	<!--查询补卡详情记录   -->
+	<select id="serachAppealAttendanceById" resultType="AppealAttendanceInfo" resultMap="AppealAttendanceInfoMap">
+		select
+			AttendanceRecord.result_id,
+			AttendanceRecord.id,AttendanceRecord.user_id,
+			convert(varchar(19),AttendanceRecord.attendance_time,120) AS attendance_time,convert(varchar(19),ff.audit_time,120) AS audit_time,
+			ff.audit_status,  AppealAttendanceRecord.remarks,AppealAttendanceRecord.status,AttendanceResult.result,AttendanceType.type_name,
+			AttendanceRecord.rule_id,AttendanceRule.rule_name,
+			userinfo.user_name,
+			AppealAttendanceRecord.id as appeal_attendance_id,ff.audit_remarks as audit_remarks,
+			ff.id as appealAttendanceRecordAudit_id,
+			AppealAttendanceRecord.effective,
+			ff.user_id as appealAttendanceRecordAudit_user_id,c.user_name as appealAttendanceRecordAudit_user_name,
+			AppealAttendanceRecordPic.id as appealAttendanceRecordPic_id,AppealAttendanceRecordPic.url,
+			AppealAttendanceRecordPic.appeal_attendance_record_id,convert(varchar(19),AppealAttendanceRecord.appeal_time,120) AS appeal_time
+			from 
+			(select * from AppealAttendanceRecordAudit where 
+			 appealAttendanceRecordAudit.user_id = ${user_id} )  ff
+			left join AppealAttendanceRecord on ff.appeal_attendance_id = AppealAttendanceRecord.id
+			left join AttendanceRecord on AppealAttendanceRecord.id = AttendanceRecord.appeal_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AppealAttendanceRecordPic on AppealAttendanceRecordPic.appeal_attendance_record_id = AppealAttendanceRecord.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join AttendanceRule on AttendanceRecord.rule_id = AttendanceRule.id
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on ff.user_id  = c.user_id
+			where AttendanceRecord.id = ${id}   and AppealAttendanceRecord.effective = 1
+			
+	</select>
+	
+		<!--查询补卡详情记录   -->
+	<select id="serachAppealAttendanceByIdApproval" resultType="AppealAttendanceInfo" resultMap="AppealAttendanceInfoMap">
+		select 
+			ff.id,
+			ff.user_id,
+			ff.attendance_type,
+			 ff.readNotRead,
+			convert(varchar(19), ff.attendance_time,120) AS attendance_time,
+			ff.appeal_attendance,
+			ff.result_id,
+			ff.appeal_attendance_id,
+			AttendanceType.type_name,
+			ff.rule_id,
+			AppealAttendanceRecord.remarks,
+			AttendanceResult.result,
+			AppealAttendanceRecordPic.id as appealAttendanceRecordPic_id,
+			AppealAttendanceRecordPic.url,
+			dbo.AppealAttendanceRecord.effective,
+			AppealAttendanceRecordPic.appeal_Attendance_Record_Id,
+			convert(varchar(19),AppealAttendanceRecord.appeal_time,120) as appeal_time,
+			AttendanceRule.rule_name,
+			userinfo.user_name
+			from (select * from AttendanceRecord where AttendanceRecord.id = ${id} ) ff
+			LEFT JOIN AppealAttendanceRecord ON ff.appeal_attendance_id = AppealAttendanceRecord.id
+			left join AppealAttendanceRecordPic on AppealAttendanceRecordPic.appeal_Attendance_Record_Id = AppealAttendanceRecord.id 
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join AttendanceRule on ff.rule_id = AttendanceRule.id
+			left join AttendanceType on AttendanceType.id = ff.attendance_type
+			left join userinfo on ff.user_id  = userinfo.user_id
+	</select>
+	<select id="serachUserInfoAll" resultType="UserInfoStatus">
+		select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  userInfo.id  )
+			 AS rownumber,user_id,user_name from userInfo where effective = 1 and company_id = ${company_id} )
+		dd where dd.rownumber > ${bNum}
+	</select>
+	<select id="findPositionUsers" resultType="UserInfoStatus">
+	select userInfo.user_id,userInfo.user_name,userInfo.phone_number,userInfo.icon_url from 
+	PositionUser 
+	left join position on PositionUser.position_id = position.position_id 
+	left join userInfo on userInfo.user_id = PositionUser.user_id
+	where position.department_id  = ${departmentId} 
+	and PositionUser.effective = 1 
+	and position.effective = 1 
+	and userInfo.effective = 1 
+	order by position.priority,PositionUser.priority
+	</select>
+<!-- 	<select id = "findDepartmentByCompanyIds" resultType="AllUserInfoStatus" resultMap="AllUserInfoStatusMap"> -->
+<!-- 		select Department.department_id,Department.department,Department.priority,userInfo.user_id,userInfo.user_name,userInfo.phone_number,userInfo.icon_url, -->
+<!-- 		business.address,business.start_time,business.stop_time,outgoing.address as outGoing_address,outgoing.start_time as outGoing_start_time,outgoing.stop_time as -->
+<!-- 		outGoing_stop_time,vacation.vacation_type_name,vacation.start_time as vacation_start_time,vacation.stop_time as vacation_stop_time, -->
+<!-- 		overtime.start_time as overtime_start_time,overtime.stop_time as overtime_stop_time,attendance.attendance_type,AttendanceRule.rule_name, -->
+<!-- 		attendance.attendance_time,attendance.appeal_attendance,AttendanceRule.rule_time_work,AttendanceRule.rule_time_off_work,attendance.result_id,AttendanceRule.rule_rest_start, -->
+<!-- 		AttendanceRule.rule_rest_end  -->
+<!-- 		from Department -->
+<!-- 		left join position on Department.department_id = position.department_id -->
+<!-- 		left join PositionUser on PositionUser.position_id = position.position_id  -->
+<!-- 		left join userInfo on userInfo.user_id = PositionUser.user_id -->
+<!-- 		left join (select * from BusinessTraveIRecord where BusinessTraveIRecord.effective =1  -->
+<!-- 					and BusinessTraveIRecord.result_id = 7  -->
+<!-- 					and #{time} between BusinessTraveIRecord.start_time and BusinessTraveIRecord.stop_time ) business -->
+<!-- 		 on business.user_id = userInfo.user_id -->
+		 
+<!-- 		 left join (select * from OutGoingRecord where OutGoingRecord.effective =1  -->
+<!-- 					and OutGoingRecord.result_id = 7  -->
+<!-- 					and #{time} between OutGoingRecord.start_time and OutGoingRecord.stop_time ) outgoing -->
+<!-- 		 on outgoing.user_id = userInfo.user_id -->
+		 
+<!-- 		 left join (select VacationRecord.*,VacationType.vacation_type_name from VacationRecord left join VacationType on VacationRecord.vacation_type_id = VacationType.vacation_type_id -->
+<!-- 		 where  #{time} between VacationRecord.start_time and VacationRecord.stop_time  -->
+<!-- 		 and VacationRecord.effective =1 and VacationRecord.result_id = 7) vacation -->
+<!-- 		 on vacation.user_id = userInfo.user_id -->
+		 
+<!-- 		 left join (select * from OverTimeRecord where  #{time} between start_time and stop_time and effective =1 and result_id = 7) as overtime -->
+<!-- 		 on overtime.user_id = userInfo.user_id -->
+		 
+<!-- 		 left join (select * from  attendanceRecord  where attendanceRecord.attendance_time between #{bt} and #{et}  -->
+<!-- 		 and (attendanceRecord.result_id is null or attendanceRecord.result_id = 7 or attendanceRecord.result_id = 0)) as attendance -->
+<!-- 		  on attendance.user_id  = userInfo.user_id -->
+		 
+<!-- 		 left join (select * from AttendanceRule where AttendanceRule.effective = 1) as AttendanceRule   on attendance.rule_id = AttendanceRule.id  -->
+		 
+		
+<!-- 		  where Department.company_id = ${companyId} and Department.effective = 1  -->
+<!-- 		  and PositionUser.effective = 1  -->
+<!-- 		and position.effective = 1  -->
+<!-- 		and userInfo.effective = 1    -->
+<!-- 		order by Department.priority,position.priority,PositionUser.priority -->
+<!-- 	</select> -->
+<select id = "findDepartmentByCompanyIds" resultType="AllUserInfoStatus" resultMap="AllUserInfoStatusMap">
+		select Department.department_id,Department.department,Department.priority,userInfo.user_id,userInfo.user_name,userInfo.phone_number,userInfo.icon_url,
+		business.address,business.start_time,business.stop_time,outgoing.address as outGoing_address,outgoing.start_time as outGoing_start_time,outgoing.stop_time as
+		outGoing_stop_time,vacation.vacation_type_name,vacation.start_time as vacation_start_time,vacation.stop_time as vacation_stop_time,
+		overtime.start_time as overtime_start_time,overtime.stop_time as overtime_stop_time,attendance.attendance_type,AttendanceRule.rule_name,
+		attendance.attendance_time,attendance.appeal_attendance,AttendanceRule.rule_time_work,AttendanceRule.rule_time_off_work,attendance.result_id
+		from Department
+		left join position on Department.department_id = position.department_id
+		left join PositionUser on PositionUser.position_id = position.position_id 
+		left join userInfo on userInfo.user_id = PositionUser.user_id
+		left join (select * from BusinessTraveIRecord where BusinessTraveIRecord.effective =1 
+					and BusinessTraveIRecord.result_id = 7 
+					and #{time} between BusinessTraveIRecord.start_time and BusinessTraveIRecord.stop_time ) business
+		 on business.user_id = userInfo.user_id
+		 
+		 left join (select * from OutGoingRecord where OutGoingRecord.effective =1 
+					and OutGoingRecord.result_id = 7 
+					and #{time} between OutGoingRecord.start_time and OutGoingRecord.stop_time ) outgoing
+		 on outgoing.user_id = userInfo.user_id
+		 
+		 left join (select VacationRecord.*,VacationType.vacation_type_name from VacationRecord left join VacationType on VacationRecord.vacation_type_id = VacationType.vacation_type_id
+		 where  #{time} between VacationRecord.start_time and VacationRecord.stop_time 
+		 and VacationRecord.effective =1 and VacationRecord.result_id = 7) vacation
+		 on vacation.user_id = userInfo.user_id
+		 
+		 left join (select * from OverTimeRecord where  #{time} between start_time and stop_time and effective =1 and result_id = 7) as overtime
+		 on overtime.user_id = userInfo.user_id
+		 
+		 left join (select * from  attendanceRecord  where attendanceRecord.attendance_time between #{bt} and #{et} 
+		 and attendanceRecord.result_id in (1,2,3,4,7) ) as attendance
+		  on attendance.user_id  = userInfo.user_id
+		 
+		 left join (select * from AttendanceRule where AttendanceRule.effective = 1) as AttendanceRule   on attendance.rule_id = AttendanceRule.id 
+		 
+		
+		  where Department.company_id = ${companyId} and Department.effective = 1 
+		  and PositionUser.effective = 1 
+		and position.effective = 1 
+		and userInfo.effective = 1   
+		order by Department.priority,position.priority,PositionUser.priority
+	</select>
+	<select id="findAttendanceByUserId" resultType="AttendanceRecord">
+		select  attendanceRecord.*,AttendanceRule.rule_time_work,AttendanceRule.rule_time_off_work,AttendanceRule.rule_name,
+		AttendanceRule.rule_rest_start,AttendanceRule.rule_rest_end from attendanceRecord left join 
+		(select * from AttendanceRule where AttendanceRule.effective = 1) as AttendanceRule   on attendanceRecord.rule_id = AttendanceRule.id 
+		where attendanceRecord.user_id = ${user_id} and attendanceRecord.attendance_time between #{bt} and #{et} and attendanceRecord.result_id in (1,2,3,4,7)
+	</select>
+	<select id="findOvertimeByUserId" resultType="int">
+		select count(*) from OverTimeRecord where user_id = ${user_id} and #{time} between start_time and stop_time and effective =1 and result_id = 7
+	</select>
+	<select id="findbusinessTraveIRecords" resultType="OutGoingRecord">
+		select * from OutGoingRecord
+		 where OutGoingRecord.user_id = ${user_id} and #{time} between OutGoingRecord.start_time and OutGoingRecord.stop_time 
+		 and OutGoingRecord.effective =1 and OutGoingRecord.result_id = 7
+	</select>
+	<select id="findVacationByUserId" resultType="VacationRecord">
+		select VacationRecord.*,VacationType.vacation_type_name from VacationRecord left join VacationType on VacationRecord.vacation_type_id = VacationType.vacation_type_id
+		 where VacationRecord.user_id = ${user_id} and #{time} between VacationRecord.start_time and VacationRecord.stop_time 
+		 and VacationRecord.effective =1 and VacationRecord.result_id = 7
+	</select>
+	<select id="findBusinessTraveIByUserId" resultType="BusinessTraveIRecord">
+		select * from BusinessTraveIRecord
+		 where BusinessTraveIRecord.user_id = ${user_id} and #{time} between BusinessTraveIRecord.start_time and BusinessTraveIRecord.stop_time 
+		 and BusinessTraveIRecord.effective =1 and BusinessTraveIRecord.result_id = 7
+	</select>
+	
+	<select id="searchHomePagePicture" resultType="HomePagePicture">
+		select top 10 * from HomePagePicture where effective = 1 and company_id = ${companyId} order by createTime desc
+	</select>
+	
+	<insert id="AddFace" parameterType="Face">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+			insert into face (faceFeature,url,user_id,createTime,startDate,endDate,startTime,endTime,updateTime,[identity],name,effectiveDay,effective,workingDay,serverStatus) Values(#{faceFeature},#{url},${user_id},getDate(),#{startDate},#{endDate},
+			#{startTime},#{endTime},getdate(),${identity},#{name},#{effectiveDay},1,${workingDay},0)
+	</insert>
+	
+	<select id="searchOpenId" resultType="User">
+		select * from userInfo where open_Id = #{openId}
+	</select>
+	
+	<update id="bindingOpenId">
+		update userInfo set open_id = #{openId} where user_id = ${userId}
+	</update>
+	
+	<select id="searchFace" resultType="Face">
+		select * from face where user_id = ${userId} and effective = 1
+	</select>
+	
+	<select id="searchAllFace" resultType="Face">
+		select * from face where effective = 1
+	</select>
+	<update id="unSubscribe">
+		update userInfo set open_id = '' where open_id = #{openId}
+	</update>
+	
+	<insert id="addFaceRecord">
+		insert into FaceRecord (user_id,createTime,url,remarks,user_name) values (${userId},#{createTime},#{fileDirPath},#{remarks},#{user_name})
+	</insert>
+	
+	<select id="findFaceCountByUserId" resultType="int">
+		select count(*) from face where user_id = ${userId}
+	</select>
+	
+	<update id="deleteFace">
+		update face set effective = 0 and serverStatus = 0 where id=${id}
+	</update>
+	
+	<select id="findAuthorityList" resultType="Authority">
+		select * from Authority where effective = 1 and company_id = ${companyId}
+	</select>
+	
+	<select id="findDepartmentList" resultType="Department">
+		select * from Department where effective = 1 and company_id = ${companyId}
+	</select>
+	
+	<select id="findPositionList" resultType="Position">
+		select Position.* from Position left join Department on Position.department_id = Department.department_id where Position.effective = 1 and Department.company_id = ${companyId} and Department.effective = 1
+	</select>
+	
+	<select id = "serachAllFaceOfTerminal" resultType="AllUserInfo" resultMap="AllUserResultMap">
+		select Department.department_id,Department.department,Department.priority,userInfo.user_id,user_name,(select count(*) from face where user_id = userInfo.user_id) as faceCount
+		from Department
+		left join position on Department.department_id = position.department_id
+		left join PositionUser on PositionUser.position_id = position.position_id 
+		left join userInfo on userInfo.user_id = PositionUser.user_id
+		   where Department.company_id = ${companyId} and 
+		   Department.effective = 1 and 
+		   position.effective = 1 and
+		   PositionUser.effective = 1 and
+		   userInfo.effective = 1
+		   order by Department.priority
+	</select>
+	
+	<select id="getVisitorInfoUserId" resultType="int">
+		select ISNULL(max(user_id), 80000000) from VisitorInfo
+	</select>
+	
+	<insert id="addVisitorInfo" parameterType="VisitorInfo">
+		<selectKey keyProperty="id" resultType="int" order="AFTER">
+			select @@identity
+		</selectKey>
+		insert into visitorInfo (user_id,company,phone,position,open_id,effective,user_name,company_id) values (${user_id},#{company},#{phone},#{position},#{open_id},1,
+		#{user_name},${company_id})
+	</insert>
+	
+	<select id="serachVisitorInfoAll" resultType="VisitorInfo">
+		select * from VisitorInfo where effective = 1 and company_id = ${company_id}
+	</select>
+	
+	<update id="updateVisitorInfo">
+		update visitorInfo set company  = #{company},phone = #{phone},position = #{position},user_name = #{user_name} where user_id = ${user_id}
+	</update>
+	
+	<update id="deleteVisitorInfo">
+		update visitorInfo set effective = 0 where user_id = ${user_id}
+	</update>
+	
+	<update id="deleteVisitorFace">
+		update face set effective = 0 where user_id = ${user_id}
+	</update>
+	
+	<update id="updateFace">
+		update face set startDate = #{startDate},startTime = #{startTime},updateTime = getDate(),endDate = #{endDate},endTime = #{endTime},
+		effectiveDay = #{effectiveDay},workingDay = ${workingDay},effective = ${effective},serverStatus = 0
+		 where user_id = ${user_id}
+	</update>
+	
+	<select id="searchVisitorSubscribe" resultType="VisitorSubscribe">
+		select VisitorSubscribe.*,userInfo.user_name as userInfo_name from VisitorSubscribe left join userInfo on VisitorSubscribe.userInfo_id = userInfo.user_id  where VisitorSubscribe.effective = 1 and VisitorSubscribe.user_id = ${user_id}
+	</select>
+	
+	<select id="findVistorInfo" resultType="VisitorInfo">
+		select * from VisitorInfo where effective = 1 and user_id = ${user_id} 
+	</select>
+	
+	<insert id="addVisitorSubscribe">
+		insert into visitorSubscribe (user_id,userInfo_id,theme,breaks,effective,createTime,startDate,endDate,startTime,endTime,faceUrl,status,
+		carryingNumber,effectiveDay,workingDay,faceFeature) values (${user_id},${userInfo_id},#{theme},#{breaks},1,getDate(),#{startDate},#{endDate},#{startTime},
+		#{endTime},#{faceUrl},0,${carryingNumber},#{effectiveDay},${workingDay},#{faceFeature})
+	</insert>
+	
+	<update id="addVisitorSubscribeFace">
+		update VisitorInfo set url = #{fileDirPath},faceFeature = #{faceFeature} where user_id = ${userId}
+	</update>
+	
+	<select id="findface" resultType="Face">
+		select * from face where id = ${id}
+	</select>
+	
+	<update id="updateFaceStatus">
+		update face set serverStatus = 1 where id = ${id}
+	</update>
+	
+	<select id="searchVisitorOpenId" resultType="VisitorInfo">
+		select * from VisitorInfo where open_id = #{openId}
+	</select>
+	
+	<select id="searchAllFaceUntreated" resultType="Face">
+		select * from face where serverStatus = 0 and effective =1
+	</select>
+	
+	<select id="searchWorkingTimeByYear" resultType="WorkingTime">
+		select * from WorkingTime where year = ${year} and company_id = ${companyId}
+	</select>
+	
+	<insert id="addAttendanceFaceRecord">
+		INSERT INTO
+		AttendanceRecord
+		(user_id,attendance_longitude,attendance_latitude,attendance_address,attendance_time,out_attendance,rule_id,readNotRead,result_id,attendance_type)
+		VALUES
+		(#{user_id},#{attendance_longitude},#{attendance_latitude},
+		#{attendance_address},#{attendance_time},0,
+		#{rule_id},0,${attendance_type},1)
+	</insert>
+	
+	<update id="deleteVisitorSubscribe">
+		update VisitorSubscribe set effective = 0 where id = ${id}
+	</update>
+	
+	<update id="updateVisitorSubscribe" parameterType = "VisitorSubscribe">
+		update VisitorSubscribe set  theme = #{theme},breaks = #{breaks},startDate = #{startDate},endDate = #{endDate},startTime = #{startTime},endTime=#{endTime},carryingNumber = ${carryingNumber},effectiveDay = #{effectiveDay} where id = ${id}
+	</update>
+	
+	<select id="searchFaceRecord" resultType="FaceRecord">
+		select * from FaceRecord where createTime between #{startTime} and #{endTime} 
+		<if test="userId!=null and userId!=''">
+				and	user_Id = ${userId}
+			</if>
+	</select>
+	
+	<delete id="deleteFaceTrue">
+	delete from face where id = ${id}
+	</delete>
+	
+	<update id="updateVisitorInfoFaceFeature">
+		update VisitorInfo set faceFeature = #{faceFeature} where user_id = ${user_id};
+		update VisitorSubscribe set faceFeature = #{faceFeature} where user_id = ${user_id};
+		update face set faceFeature = #{faceFeature} where user_id = ${user_id};
+	</update>
+	
+	<insert id="openAndCloseDoorRecord" parameterType="OpenAndCloseDoorRecord">
+		insert into OpenAndCloseDoorRecord (user_id,status,createTime) values (${user_id},${status},#{createTime})
+	</insert>
+	
+	<insert id="inserAddface" parameterType="Face">
+		insert into face (user_id,url,facefeature,createTime,startDate,startTime,endTime,updateTime,[identity],name,enddate,effectiveDay,effective,workingDay,serverStatus) 
+		values (${user_id},#{url},#{faceFeature},getDate(),#{startDate},#{startTime},#{endTime},getDate(),${identity},
+		#{name},#{endDate},#{effectiveDay},${effective},#{workingDay},${serverStatus})
+	</insert>
+	
+	<select id="searchNewVersion" resultType="VersionInfo">
+		select top 1 * from versionInfo where apkTypeId = ${apkTypeId} order by versioncode desc
+	</select>
+	
+	<select id="serachUserByUserAndPasswork" resultType="User">
+		select * from userInfo where user_id = #{user_id} and user_pwd = #{password} and effective = 1
+	</select>
+	
+	<update id="adduserInfoByOpenId">
+		update userInfo set open_id = '',unionid = '' where open_id = #{openId} ;
+		update userInfo set open_id = #{openId},unionid = #{unionid} where user_id = #{user_id}
+	</update>
+	
+	<update id="adduserInfoByOthers">
+		update userInfo set open_id = '',unionid = '' where open_id = #{openId} ;
+		update userInfo set open_id = #{openId},unionid = #{unionid} where (dbo.UserInfo.phone_number = #{user_id} OR
+		dbo.UserInfo.mail_address =
+		#{user_id}) 
+	</update>
+	<update id="updateUnoinid">
+	update userInfo set unionid = #{unionid} where open_id = #{openId}
+	</update>
+</mapper>
+	

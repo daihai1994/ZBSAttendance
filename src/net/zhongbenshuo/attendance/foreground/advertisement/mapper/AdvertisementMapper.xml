@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.advertisement.mapper.AdvertisementMapper">
+	<!-- 	查询广告 -->
+	<select id="findAdvertisement" resultType="Advertisement">
+		declare @aaa int
+		select @aaa = count(*) from Advertisement 
+		where effective =1 and createTime BETWEEN #{bt} and #{et} 
+		<if test="name!=null and name!=''">
+			and	name like '%${name}%'
+		</if>
+		select top ${rows} *  from (
+		SELECT ROW_NUMBER() OVER (ORDER BY effective desc,createTime desc,end_time desc ) AS rownumber,@aaa AS size ,
+		id,picUrl,adUrl,showTime,name,CONVERT(VARCHAR(19),createTime,120) as createTime,
+		CONVERT(VARCHAR(19),start_time,120) as start_time,
+		CONVERT(VARCHAR(19),end_time,120) as end_time,
+		effective,force from Advertisement
+		where effective =1 and createTime BETWEEN #{bt} and #{et} 
+		<if test="name!=null and name!=''">
+			and	name like '%${name}%'
+		</if>)
+		cc WHERE   cc.rownumber > ${bNum} 
+	</select>
+	<!-- 存储广告 -->
+	<insert id="uploadImg">
+		insert into Advertisement (picUrl,adUrl,showTime,name,start_time,end_time,effective,createTime,force) 
+		values (#{fileDirPath},#{adUrl},#{showTime},#{name},#{start_time},#{end_time},${effective},getDate(),${force})
+	</insert>
+	<!-- 取消广告强制 -->
+	<update id="updateAdvertisementForce">
+		update Advertisement set force  =0
+	</update>
+	<!--根据广告iD查询广告数据  -->
+	<select id="findAdvertisementByID" resultType="Advertisement">
+		select * from Advertisement where id = ${id}
+	</select>
+	<!--修改带广告的广告信息  -->
+	<update id="updateuploadImg">
+		update Advertisement set picUrl = #{fileDirPath},adUrl = #{adUrl},showTime = #{showTime},name = #{name},start_time = #{start_time},end_time = #{end_time},
+		effective = ${effective},force = ${force} where id = ${id}
+	</update>
+	<!--  -->
+	<update id="updateuploadNotImg">
+		update Advertisement set adUrl = #{adUrl},showTime = #{showTime},name = #{name},start_time = #{start_time},end_time = #{end_time},
+		effective = ${effective},force = ${force} where id = ${id}
+	</update>
+	
+</mapper>

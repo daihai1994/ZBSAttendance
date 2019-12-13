@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.attendanceRecord.mapper.AttendanceRecordMapper">
+	<!-- 查询考勤记录 -->
+	<select id="findAttendanceRecord" resultType="AttendanceRecord">
+		select AttendanceRecord.*,userinfo.user_name,AttendanceResult.result from AttendanceRecord
+
+		left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+		
+		left join userinfo on AttendanceRecord.user_id = userinfo.user_id
+		
+		where AttendanceRecord.user_id = #{user_id} and attendance_time BETWEEN #{bt} AND
+		#{et} order by AttendanceRecord.attendance_time
+	
+	</select>
+	
+	<!--根据日期查询工作表  -->
+	<select id="findWorkingTimes" resultType="WorkingTime">
+		select * from workingTime where date between #{bt} and #{et} and company_id = ${company_id} order by date
+	</select>
+	
+	<!--根据日期查询人员的工时，加班时间，请假时间等  -->
+	<select id="findWorkingTimeUser" resultType="WorkingTimeUser">
+		select WorkingTimeUser.*,userInfo.user_name ,WorkingTime.status
+		from WorkingTimeUser 
+		left join userInfo on userInfo.user_id = WorkingTimeUser.user_id
+		LEFT JOIN WorkingTime on WorkingTimeUser.date = WorkingTime.date AND WorkingTimeUser.company_id = WorkingTime.company_id
+		 where WorkingTime.date like '%${date}%' and  WorkingTimeUser.company_id = ${company_id} and WorkingTimeUser.user_id = ${user_id} order by date
+	</select>
+	
+	<!--查询公司下的所有员工  -->
+	<select id="findUser" resultType="Combox">
+		select user_id as id ,user_name as text from userInfo where company_id = ${company_id} and effective = 1 
+	</select>
+	
+	
+	<select id="exportexportReportAttendanceRecord" resultType="ExportReportAttendanceRecord">
+		select userInfo.user_name as userName,attendance_type,attendance_address,attendance_time,out_attendance,appeal_attendance,result_id ,AttendanceResult.result
+		from userInfo left join (select * from  AttendanceRecord where  AttendanceRecord.attendance_time between #{bt} and #{et})
+	 as aa	on aa.user_id = userInfo.user_id left join AttendanceResult on aa.result_id = 
+		AttendanceResult.id 
+		 where userInfo.company_id =  ${company_id}   and userInfo.effective = 1
+		  <if test="user!=0">
+			and	userInfo.user_id = #{user}
+		</if> 
+		  order by user_name,attendance_time
+	</select>
+	
+	<select id="findUserAll" resultType="ExportReportAttendanceRecord">
+		select user_name as userName from userInfo  where userInfo.company_id = ${company_id} and userInfo.effective = 1 
+	</select>
+	
+	
+	<select id="findWorkingTimeUsersList" resultType="WorkingTimeUser">
+		  select WorkingTimeUser.*,UserInfo.user_name,WorkingTime.week,WorkingTime.status from WorkingTimeUser left join UserInfo on WorkingTimeUser.user_id = UserInfo.user_id 
+			left join WorkingTime on WorkingTimeUser.date = WorkingTime.date
+			where UserInfo.company_id = ${company_id}
+			and UserInfo.effective = 1 and WorkingTime.company_id = ${company_id} and 
+			WorkingTimeUser.date like '%${time}%'  
+			<if test="user!=0">
+			and	userInfo.user_id = #{user}
+		</if>  
+		order by WorkingTimeUser.user_id,WorkingTimeUser.date 
+	</select>
+</mapper>

@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.zhongbenshuo.attendance.foreground.applyRecord.mapper.ApplyRecordMapper">
+	<resultMap id="OutAttendanceInfoMap" type="OutAttendanceInfo">
+		<id column="id" property="id" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="result" property="result" />
+		<id column="result_id" property="result_id" />
+		<id column="attendance_longitude" property="attendance_longitude" />
+		<id column="attendance_latitude" property="attendance_latitude" />
+		<id column="attendance_address" property="attendance_address" />
+		<id column="attendance_time" property="attendance_time" />
+		<id column="type_name" property="type_name" />
+		<id column="out_attendance_id" property="out_attendance_id" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="effective" property="effective" />
+		<id column="outAttendanceRecordAudit_id" property="outAttendanceRecordAudit_id" />
+		<id column="outAttendanceRecordAudit_user_id" property="outAttendanceRecordAudit_user_id" />
+		<id column="outAttendanceRecordAudit_user_name" property="outAttendanceRecordAudit_user_name" />
+		<id column="size" property="size" />
+		<id column="audit_time" property="audit_time" />
+		<id column="audit_status" property="audit_status" />
+		<collection property="outAttendanceRecordPic" ofType="OutAttendanceRecordPic">
+			<id column="outAttendanceRecordPic_id" property="outAttendanceRecordPic_id" />
+			<id column="url" property="url" />
+			<id column="out_attendance_record_id" property="out_attendance_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="VacationRecordMap" type="VacationRecord">
+		<id column="id" property="id" />
+		<id column="vacation_type_id" property="vacation_type_id" />
+		<id column="vacation_type_name" property="vacation_type_name" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="day" property="day" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<collection property="vacationRecordPic" ofType="VacationRecordPic">
+			<id column="vacationRecordPicid" property="vacationRecordPicid" />
+			<id column="url" property="url" />
+			<id column="vacation_record_id" property="vacation_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="AppealAttendanceInfoMap" type="AppealAttendanceInfo">
+		<id column="id" property="id" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="result" property="result" />
+		<id column="result_id" property="result_id" />
+		<id column="appeal_time" property="appeal_time" />
+		<id column="type_name" property="type_name" />
+		<id column="attendance_time" property="attendance_time" />
+		<id column="attendance_type" property="attendance_type" />
+		<id column="appeal_attendance_id" property="appeal_attendance_id" />
+		<id column="appeal_attendance" property="appeal_attendance" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="effective" property="effective" />
+		<id column="appealAttendanceRecordAudit_id" property="appealAttendanceRecordAudit_id" />
+		<id column="appealAttendanceRecordAudit_user_id" property="appealAttendanceRecordAudit_user_id" />
+		<id column="appealAttendanceRecordAudit_user_name" property="appealAttendanceRecordAudit_user_name" />
+		<id column="size" property="size" />
+		<id column="audit_time" property="audit_time" />
+		<id column="audit_status" property="audit_status" />
+		<id column="rule_id" property="rule_id" />
+		<id column="rule_name" property="rule_name" />
+		<collection property="appealAttendanceRecordPic" ofType="AppealAttendanceRecordPic">
+			<id column="appealAttendanceRecordPic_id" property="appealAttendanceRecordPic_id" />
+			<id column="url" property="url" />
+			<id column="appeal_attendance_record_id" property="appeal_attendance_record_id" />
+		</collection>
+	</resultMap>
+	
+	
+	<resultMap id="OverTimeRecordMap" type="OverTimeRecord">
+		<id column="id" property="id" />
+		<id column="overTimeType_id" property="overTimeType_id" />
+		<id column="overTimeType" property="overTimeType" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="day" property="day" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<collection property="overTimeRecordPic" ofType="OverTimeRecordPic">
+			<id column="overTimeRecordPicid" property="overTimeRecordPicid" />
+			<id column="url" property="url" />
+			<id column="over_time_record_id" property="over_time_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="OutGoingRecordMap" type="OutGoingRecord">
+		<id column="id" property="id" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<id column="address" property="address" />
+		<collection property="outGoingRecordPic" ofType="OutGoingRecordPic">
+			<id column="outGoingRecordPicId" property="outGoingRecordPicId" />
+			<id column="url" property="url" />
+			<id column="outGoing_record_id" property="outGoing_record_id" />
+		</collection>
+	</resultMap>
+	
+	<resultMap id="BusinessTraveIRecordMap" type="BusinessTraveIRecord">
+		<id column="id" property="id" />
+		<id column="start_time" property="start_time" />
+		<id column="stop_time" property="stop_time" />
+		<id column="hour" property="hour" />
+		<id column="remarks" property="remarks" />
+		<id column="effective" property="effective" />
+		<id column="createTime" property="createTime" />
+		<id column="readNotRead" property="readNotRead" />
+		<id column="size" property="size" />
+		<id column="user_id" property="user_id" />
+		<id column="user_name" property="user_name" />
+		<id column="audit_id" property="audit_id" />
+		<id column="audit_status" property="audit_status" />
+		<id column="audit_remarks" property="audit_remarks" />
+		<id column="audit_time" property="audit_time" />
+		<id column="result_id" property="result_id" />
+		<id column="result" property="result" />
+		<id column="address" property="address" />
+		<id column="day" property="day" />
+		<collection property="businessTraveIRecordPic" ofType="BusinessTraveIRecordPic">
+			<id column="businessTraveIRecordPicId" property="businessTraveIRecordPicId" />
+			<id column="url" property="url" />
+			<id column="businessTraveI_record_id" property="businessTraveI_record_id" />
+		</collection>
+	</resultMap>
+	
+	<!--审批记录的查询   -->
+	<select id="findApply_Records" resultType="OutAttendanceInfo" resultMap="OutAttendanceInfoMap">
+		declare @aaa int
+		select @aaa = count(*) from AttendanceRecord
+			LEFT JOIN OutAttendanceRecord ON AttendanceRecord.out_attendance_id = OutAttendanceRecord.id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			where AttendanceRecord.user_id = ${user_id} and  out_attendance = 1 
+			and 	AttendanceRecord.attendance_time BETWEEN #{bt} and #{et} 
+		
+		select @aaa AS size ,
+			ff.id,
+			ff.user_id,
+			ff.attendance_type,
+			ff.readNotRead,
+			ff.attendance_longitude,
+			ff.attendance_latitude,
+			ff.attendance_address,
+			convert(varchar(19),ff.attendance_time,120) AS attendance_time,
+			ff.out_attendance,
+			dbo.OutAttendanceRecord.effective,
+			ff.result_id,
+			ff.out_attendance_id,
+			ff.rule_id,OutAttendanceRecord.remarks,
+			AttendanceResult.result,
+			OutAttendanceRecordPic.id as outAttendanceRecordPic_id,
+			OutAttendanceRecordPic.url,
+			OutAttendanceRecordPic.out_Attendance_Record_Id,
+			userinfo.user_name
+			from (select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  AttendanceRecord.readNotRead, AttendanceRecord.attendance_time desc )
+			 AS rownumber,* from AttendanceRecord where AttendanceRecord.user_id = ${user_id} and  out_attendance = 1  
+			 and AttendanceRecord.attendance_time BETWEEN #{bt} and #{et} )
+		dd where dd.rownumber > ${bNum})  ff
+			LEFT JOIN OutAttendanceRecord ON ff.out_attendance_id = OutAttendanceRecord.id
+			left join OutAttendanceRecordPic on OutAttendanceRecordPic.out_Attendance_Record_Id = OutAttendanceRecord.id 
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = ff.attendance_type
+			left join userinfo on ff.user_id  = userinfo.user_id
+	</select>
+	
+	<!--审批记录的查询   -->
+	<select id="findAppeal_Records" resultType="AppealAttendanceInfo" resultMap="AppealAttendanceInfoMap">
+		declare @aaa int
+		select @aaa = count(*) from AttendanceRecord
+			LEFT JOIN AppealAttendanceRecord ON AttendanceRecord.appeal_attendance_id = AppealAttendanceRecord.id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			where AttendanceRecord.user_id = ${user_id} and  appeal_attendance = 1 
+			and 	AppealAttendanceRecord.appeal_time BETWEEN #{bt} and #{et} 
+			
+		
+			select 
+			@aaa AS size ,
+			ff.id,
+			ff.user_id,
+			ff.attendance_type,
+			 ff.readNotRead,
+			convert(varchar(19), ff.attendance_time,120) AS attendance_time,
+			ff.appeal_attendance,
+			ff.result_id,
+			ff.appeal_attendance_id,
+			AttendanceType.type_name,
+			ff.rule_id,
+			AppealAttendanceRecord.remarks,
+			AttendanceResult.result,
+			AppealAttendanceRecordPic.id as appealAttendanceRecordPic_id,
+			AppealAttendanceRecordPic.url,
+			dbo.AppealAttendanceRecord.effective,
+			AppealAttendanceRecordPic.appeal_Attendance_Record_Id,
+			convert(varchar(19),AppealAttendanceRecord.appeal_time,120) as appeal_time,
+			AttendanceRule.rule_name,
+			userinfo.user_name
+			from (select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  AttendanceRecord.readNotRead, AttendanceRecord.attendance_time desc )
+			 AS rownumber,* from AttendanceRecord where AttendanceRecord.user_id = ${user_id} and  appeal_attendance = 1 )
+		dd where dd.rownumber > ${bNum})  ff
+			LEFT JOIN AppealAttendanceRecord ON ff.appeal_attendance_id = AppealAttendanceRecord.id
+			left join AppealAttendanceRecordPic on AppealAttendanceRecordPic.appeal_Attendance_Record_Id = AppealAttendanceRecord.id 
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join AttendanceRule on ff.rule_id = AttendanceRule.id
+			left join AttendanceType on AttendanceType.id = ff.attendance_type
+			left join userinfo on ff.user_id  = userinfo.user_id
+			where	AppealAttendanceRecord.appeal_time BETWEEN #{bt} and #{et} 
+	</select>
+	
+	<!--申请人查询加班申请记录 -->
+	<select id="findOverTime_Record" resultType="OverTimeRecord" resultMap="OverTimeRecordMap">
+		declare @aaa int
+		select @aaa = count(*) from OverTimeRecord
+			left join OvertimeType on OvertimeType.overtime_type_id = OverTimeRecord.overTimeType_id
+			left join AttendanceResult on OverTimeRecord.result_id = AttendanceResult.id
+			left join userinfo on OverTimeRecord.user_id  = userinfo.user_id
+			where OverTimeRecord.user_id = ${user_id} 
+			and 	OverTimeRecord.createTime BETWEEN #{bt} and #{et} 
+		
+		select @aaa AS size ,
+			ff.id,
+			ff.overTimeType_id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.day,
+			ff.hour,
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			OvertimeType.overtime_type_name as overTimeType,OverTimeRecordPic.url,OverTimeRecordPic.id as overTimeRecordPicid,
+			OverTimeRecordPic.over_time_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  OverTimeRecord.createTime desc )
+			 AS rownumber,* from OverTimeRecord where OverTimeRecord.user_id = ${user_id} 
+			 and OverTimeRecord.createTime BETWEEN #{bt} and #{et} )
+		dd where dd.rownumber > ${bNum})  ff
+			left join OvertimeType on OvertimeType.overtime_type_id =  ff.overTimeType_id
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join OverTimeRecordPic on OverTimeRecordPic.over_time_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+	</select>
+	
+	<!--申请人查询假期申请记录 -->
+	<select id="findVacation_Record" resultType="VacationRecord" resultMap="VacationRecordMap">
+		declare @aaa int
+		select @aaa = count(*) from VacationRecord
+			left join VacationType on VacationType.vacation_type_id = VacationRecord.vacation_type_id
+			left join AttendanceResult on VacationRecord.result_id = AttendanceResult.id
+			left join userinfo on VacationRecord.user_id  = userinfo.user_id
+			where VacationRecord.user_id = ${user_id} 
+			and 	VacationRecord.createTime BETWEEN #{bt} and #{et} 
+		
+		select @aaa AS size ,
+			ff.id,
+			ff.vacation_type_id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.[day],
+			ff.[hour],
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			VacationType.vacation_type_name,VacationRecordPic.url,VacationRecordPic.id as vacationRecordPicid,
+				VacationRecordPic.vacation_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  VacationRecord.createTime desc )
+			 AS rownumber,* from VacationRecord where VacationRecord.user_id = ${user_id} 
+			 and VacationRecord.createTime BETWEEN #{bt} and #{et} )
+		dd where dd.rownumber > ${bNum})  ff
+			left join VacationType on VacationType.vacation_type_id =  ff.vacation_type_id
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join VacationRecordPic on VacationRecordPic.vacation_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+			
+	</select>
+	
+	<!--申请人查询外出申请记录 -->
+	<select id="findOutGoing_Record" resultType="OutGoingRecord" resultMap="OutGoingRecordMap">
+		declare @aaa int
+		select @aaa = count(*) from OutGoingRecord
+			left join AttendanceResult on OutGoingRecord.result_id = AttendanceResult.id
+			left join userinfo on OutGoingRecord.user_id  = userinfo.user_id
+			where OutGoingRecord.user_id = ${user_id} 
+			and 	OutGoingRecord.createTime BETWEEN #{bt} and #{et} 
+		
+		select @aaa AS size ,
+			ff.id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.[hour],
+			ff.address,
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			OutGoingRecordPic.url,OutGoingRecordPic.id as outGoingRecordPicid,
+				OutGoingRecordPic.outGoing_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  OutGoingRecord.createTime desc )
+			 AS rownumber,* from OutGoingRecord where OutGoingRecord.user_id = ${user_id} 
+			 and OutGoingRecord.createTime BETWEEN #{bt} and #{et} )
+		dd where dd.rownumber > ${bNum})  ff
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join OutGoingRecordPic on OutGoingRecordPic.outGoing_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+			
+	</select>
+	
+	<!--申请人查询出差申请记录 -->
+	<select id="findbusinessTraveI_Record" resultType="BusinessTraveIRecord" resultMap="BusinessTraveIRecordMap">
+		declare @aaa int
+		select @aaa = count(*) from BusinessTraveIRecord
+			left join AttendanceResult on BusinessTraveIRecord.result_id = AttendanceResult.id
+			left join userinfo on BusinessTraveIRecord.user_id  = userinfo.user_id
+			where BusinessTraveIRecord.user_id = ${user_id} 
+			and 	BusinessTraveIRecord.createTime BETWEEN #{bt} and #{et} 
+		
+		select @aaa AS size ,
+			ff.id,
+			CONVERT(VARCHAR(19),ff.start_time,120) as start_time,
+			CONVERT(VARCHAR(19),ff.stop_time,120) as stop_time,
+			ff.[day],
+			ff.[hour],
+			ff.address,
+			ff.remarks,
+			ff.effective,
+			CONVERT(VARCHAR(19),ff.createTime,120) as createTime,
+			ff.readNotRead,
+			ff.user_id,
+			ff.result_id,
+			BusinessTraveIRecordPic.url,BusinessTraveIRecordPic.id as businessTraveIRecordPicid,
+				BusinessTraveIRecordPic.businessTraveI_record_id,userinfo.user_name,AttendanceResult.result
+			from 
+			(select top ${rows} * from (SELECT ROW_NUMBER() OVER (ORDER BY  BusinessTraveIRecord.createTime desc )
+			 AS rownumber,* from BusinessTraveIRecord where BusinessTraveIRecord.user_id = ${user_id} 
+			 and BusinessTraveIRecord.createTime BETWEEN #{bt} and #{et} )
+		dd where dd.rownumber > ${bNum})  ff
+			left join AttendanceResult on ff.result_id = AttendanceResult.id
+			left join BusinessTraveIRecordPic on BusinessTraveIRecordPic.businessTraveI_record_id = ff.id
+			left join userinfo on ff.user_id  = userinfo.user_id
+			
+	</select>
+	<!--标记已读  -->
+	<update id="markRead" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update AttendanceRecord
+	        <set>
+	           readNotread = 1
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!--加班标记已读  -->
+	<update id="markReadoverTime" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update OverTimeRecord
+	        <set>
+	           readNotread = 1
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!--外出标记已读  -->
+	<update id="markReadoutGoing" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update OutGoingRecord
+	        <set>
+	           readNotread = 1
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!--出差标记已读  -->
+	<update id="markReadbusinessTraveI" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update BusinessTraveIRecord
+	        <set>
+	           readNotread = 1
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	<!--休假标记已读  -->
+	<update id="markReadvacation" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update VacationRecord
+	        <set>
+	           readNotread = 1
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!--外勤打卡标记无效 -->
+	<update id="updateApplyEffective" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update OutAttendanceRecord
+	        <set>
+	           effective = 0
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!--补卡申请标记无效 -->
+	<update id="updateAppealEffective" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update AppealAttendanceRecord
+	        <set>
+	           effective = 0
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	<!--加班申请标记无效 -->
+	<update id="updateOverTimeEffective" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update OverTimeRecord
+	        <set>
+	           effective = 0
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	<!--外出申请标记无效 -->
+	<update id="updateoutGoingEffective" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update OutGoingRecord
+	        <set>
+	           effective = 0
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	<!--出差申请标记无效 -->
+	<update id="updatebusinessTraveIEffective" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update BusinessTraveIRecord
+	        <set>
+	           effective = 0
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!--假期申请标记无效 -->
+	<update id="updatevacationEffective" parameterType="String">
+		<foreach collection="list" item="item" index="index" open="" close="" separator=";">
+	        update VacationRecord
+	        <set>
+	           effective = 0
+	        </set>
+	        where id = ${item}  
+	    </foreach>
+	</update>
+	
+	<!-- 全部标记已读 -->
+	<update id="allTagsRead">
+	update AttendanceRecord set readNotread = 1 where user_id = ${userId}
+	</update>
+	<!-- 加班申请全部标记已读 -->
+	<update id="allTagsReadoverTime">
+	update OverTimeRecord set readNotread = 1 where user_id = ${userId}
+	</update>
+	<!-- 外出申请全部标记已读 -->
+	<update id="allTagsReadoutGoing">
+	update OutGoingRecord set readNotread = 1 where user_id = ${userId}
+	</update>
+	
+	<!-- 出差申请全部标记已读 -->
+	<update id="allTagsReadbusinessTraveI">
+	update BusinessTraveIRecord set readNotread = 1 where user_id = ${userId}
+	</update>
+	<!-- 假期申请全部标记已读 -->
+	<update id="allTagsReadvacation">
+	update VacationRecord set readNotread = 1 where user_id = ${userId}
+	</update>
+	<!--查询外勤审批的个数  -->
+	<select id="findOutAttendanceApproval" resultType="int">
+		select  count(*) from OutAttendanceRecordAudit
+			left join OutAttendanceRecord on OutAttendanceRecordAudit.out_Attendance_Record_Id = OutAttendanceRecord.id
+			left join AttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on OutAttendanceRecordAudit.user_id  = c.user_id
+			where OutAttendanceRecordAudit.user_id = ${userId} and OutAttendanceRecordAudit.audit_status = 1 and OutAttendanceRecord.effective = 1
+	</select>
+	<!--查询外勤申请的个数  -->
+	<select id="findOutAttendanceApply" resultType="int">
+		select count(*) from AttendanceRecord left join OutAttendanceRecord on OutAttendanceRecord.id = AttendanceRecord.out_attendance_id
+		 where user_id = ${userId} and readNotRead = 0 and out_attendance = 1 and OutAttendanceRecord.effective = 1 ;
+	</select>
+	
+	
+	<!--查询补卡审批的个数  -->
+	<select id="findAppealAttendanceApproval" resultType="int">
+		select  count(*) from AppealAttendanceRecordAudit
+			left join AppealAttendanceRecord on AppealAttendanceRecordAudit.appeal_attendance_id = AppealAttendanceRecord.id
+			left join AttendanceRecord on AppealAttendanceRecord.id = AttendanceRecord.appeal_attendance_id
+			left join AttendanceResult on AttendanceRecord.result_id = AttendanceResult.id
+			left join AttendanceType on AttendanceType.id = AttendanceRecord.attendance_type
+			left join userinfo on AttendanceRecord.user_id  = userinfo.user_id
+			left join userinfo c on AppealAttendanceRecordAudit.user_id  = c.user_id
+			where AppealAttendanceRecordAudit.user_id = ${userId} and AppealAttendanceRecordAudit.audit_status = 1 and AppealAttendanceRecord.effective = 1
+	</select>
+	<!--查询补卡申请的个数  -->
+	<select id="findAppealAttendanceApply" resultType="int">
+		select count(*) from AttendanceRecord left join AppealAttendanceRecord on AppealAttendanceRecord.id = AttendanceRecord.appeal_attendance_id
+		 where user_id = ${userId} and readNotRead = 0 and appeal_attendance = 1 and AppealAttendanceRecord.effective = 1 ;
+	</select>
+	<!--查询加班审批的个数  -->
+	<select id="findOverTimeApproval" resultType="int">
+		select count(*) from OverTimeRecordAudit
+			left join OverTimeRecord on OverTimeRecordAudit.over_time_record_id = OverTimeRecord.id
+			left join OvertimeType on OvertimeType.overtime_type_id = OverTimeRecord.overTimeType_id
+			left join AttendanceResult on OverTimeRecord.result_id = AttendanceResult.id
+			left join userinfo on OverTimeRecord.user_id  = userinfo.user_id
+			left join userinfo c on OverTimeRecordAudit.user_id  = c.user_id
+			where OverTimeRecordAudit.user_id = ${userId} and OverTimeRecordAudit.audit_status = 1 
+			and  OverTimeRecord.effective = 1
+	</select>
+	<!--查询加班申请的个数  -->
+	<select id="findOverTimeApply" resultType="int">
+		select count(*) from OverTimeRecord
+		 where user_id = ${userId} and readNotRead = 0 and effective = 1 ;
+	</select>
+	
+	<!--查询休假审批的个数  -->
+	<select id="findVacationApproval" resultType="int">
+			select count(*) from VacationRecordAudit
+			left join VacationRecord on VacationRecordAudit.vacation_record_id = VacationRecord.id
+			left join VacationType on VacationType.vacation_type_id = VacationRecord.vacation_type_id
+			left join AttendanceResult on VacationRecord.result_id = AttendanceResult.id
+			left join userinfo on VacationRecord.user_id  = userinfo.user_id
+			left join userinfo c on VacationRecordAudit.user_id  = c.user_id
+			where VacationRecordAudit.user_id = ${userId} and VacationRecordAudit.audit_status = 1 
+			  and VacationRecord.effective = 1
+	</select>
+	
+	
+	<!--查询外出审批的个数  -->
+	<select id="findOutGoingApproval" resultType="int">
+			select  count(*) from OutGoingRecordAudit
+			left join OutGoingRecord on OutGoingRecordAudit.OutGoing_record_id = OutGoingRecord.id
+			left join AttendanceResult on OutGoingRecord.result_id = AttendanceResult.id
+			left join userinfo on OutGoingRecord.user_id  = userinfo.user_id
+			left join userinfo c on OutGoingRecordAudit.user_id  = c.user_id
+			where OutGoingRecordAudit.user_id = ${userId} and OutGoingRecordAudit.audit_status =1 
+			  and OutGoingRecord.effective = 1
+	</select>
+	<!--查询加班申请的个数  -->
+	<select id="findVacationApply" resultType="int">
+		select count(*) from VacationRecord
+		 where user_id = ${userId} and readNotRead = 0 and effective = 1 ;
+	</select>
+	
+	<!--查询加班申请的个数  -->
+	<select id="findOutGoingApply" resultType="int">
+		select count(*) from OutGoingRecord
+		 where user_id = ${userId} and readNotRead = 0 and effective = 1 ;
+	</select>
+	
+	<!--查询出差审批的个数  -->
+	<select id="findBusinessTraveIApproval" resultType="int">
+			select  count(*) from BusinessTraveIRecordAudit
+			left join BusinessTraveIRecord on BusinessTraveIRecordAudit.businessTraveI_record_id = BusinessTraveIRecord.id
+			left join AttendanceResult on BusinessTraveIRecord.result_id = AttendanceResult.id
+			left join userinfo on BusinessTraveIRecord.user_id  = userinfo.user_id
+			left join userinfo c on BusinessTraveIRecordAudit.user_id  = c.user_id
+			where BusinessTraveIRecordAudit.user_id = ${userId} and BusinessTraveIRecordAudit.audit_status =1 
+			and 	 BusinessTraveIRecord.effective = 1
+	</select>
+	
+	<!--查询出差申请的个数  -->
+	<select id="findBusinessTraveIApply" resultType="int">
+		select count(*) from BusinessTraveIRecord
+		 where user_id = ${userId} and readNotRead = 0 and effective = 1 ;
+	</select>
+</mapper>
